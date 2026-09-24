@@ -1,0 +1,8 @@
+# Laravel : 
+* how does autoloading works ?
+-- index.php contains : 
+-- vendor/autoload.php 
+-- this one line initialize the Composer's autolader process.
+-- so i dont manually import or include any package or file in the php file, compose autolader take care of it.
+
+* what is the PSR-4 standerds of autoloading ?
