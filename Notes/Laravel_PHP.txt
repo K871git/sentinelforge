@@ -36,3 +36,6 @@ types based on who can access API : Public API, Private API, Partner API
 
 #RestAPI : rest -> Representational State Transfer
 Rest an architectural style to design the network API's
+Rest API's are stateless
+
+Path parameter vs query parameter : 
