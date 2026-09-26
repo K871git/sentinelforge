@@ -6,3 +6,33 @@
 -- so i dont manually import or include any package or file in the php file, compose autolader take care of it.
 
 * what is the PSR-4 standerds of autoloading ?
+-- PSR-4 autoloading is a PHP standard that tells PHP how to automatically find and load class files when you use a class.
+-- Automatic class loading 
+-- No need of `require` statements in file 
+-- cleaner namespace/class organization
+
+* Artisan :
+Artisan is an Laravel's Command Line Interface (CLI) 
+Artisan not only genrate files but also handle the application's operations
+
+* what are different types of API's : Application Programming Interface
+-- API : An API is a contract that allows one software system to communicate with another software system.
+Frontend
+   |
+   |  "Give me user 101"
+   ↓
+Backend API
+   |
+   |  fetch user
+   ↓
+Database
+
+-- API contract is nothing but sort of rules to send input parameters and how to consume an API
+-- An API have URL, Http method, Headers, Authorization, Response format, Request body, Status codes, Error format 
+GET /api/users/{id} => id is an path parameter
+
+Three are commonly three main types of API's : 1) RestAPI 2) SOAP 3) GraphQL
+types based on who can access API : Public API, Private API, Partner API
+
+#RestAPI : rest -> Representational State Transfer
+Rest an architectural style to design the network API's
