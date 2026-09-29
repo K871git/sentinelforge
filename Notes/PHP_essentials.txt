@@ -1,0 +1,10 @@
+setcookie();
+setcookie is php built in function used to store short piece of information HTTP cookie in the user's browser
+syntax:
+setcookie(
+    name,value,expiry,path,domain,secure,httponly
+)
+
+setcookie('iisuser',$user->id,time()+(10*356*24*60*60),path,"",secure,httponly);
+
+* what is repository pattern in laravel
