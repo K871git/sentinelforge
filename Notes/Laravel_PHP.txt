@@ -39,3 +39,8 @@ Rest an architectural style to design the network API's
 Rest API's are stateless
 
 Path parameter vs query parameter : 
+path parameter that is the part of the URL path and usually send for getting resources : passing the data in path as a parameter : /api/site/119 : give me site whose Id is 119
+query parameters are the one used for filter, searching,sorting or pagination in the url after ? like : https://google.com/users?pagination=5; 
+
+
+
