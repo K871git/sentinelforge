@@ -43,4 +43,14 @@ path parameter that is the part of the URL path and usually send for getting res
 query parameters are the one used for filter, searching,sorting or pagination in the url after ? like : https://google.com/users?pagination=5; 
 
 
+* Design an api :
+Request     : validation
+controller  :
+   -> recieve request 
+   -> call service 
+   -> return response/ sending response back 
+service     : business logic
+repository  : database operations
+Model       : eloquent/database representation 
+Resource    : tranform data into API JSON
 
