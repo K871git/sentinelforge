@@ -44,11 +44,13 @@ return [
             'transaction_mode' => 'DEFERRED',
         ],
 
+        // mysql 8.4 : sentinelforgedb
+
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DB_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '3306'),
+            'port' => env('DB_PORT', '3307'),
             'database' => env('DB_DATABASE', 'laravel'),
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', ''),
@@ -63,14 +65,15 @@ return [
                 Mysql::ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
         ],
-        'mysql2' => [
+        // mysql 5.3 DB : iis_master DB legacy
+        'mysql_lg' => [
             'driver' => 'mysql',
             'url' => env('DB_URL'),
-            'host' => env('DB_HOST2', '127.0.0.1'),
-            'port' => env('DB_PORT2', '3306'),
-            'database' => env('DB_DATABASE2', 'laravel'),
-            'username' => env('DB_USERNAME2', 'root'),
-            'password' => env('DB_PASSWORD2', ''),
+            'host' => env('DB_HOST_LG', '127.0.0.1'),
+            'port' => env('DB_PORT_LG', '3306'),
+            'database' => env('DB_DATABASE_LG', 'laravel'),
+            'username' => env('DB_USERNAME_LG', 'root'),
+            'password' => env('DB_PASSWORD_LG', ''),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => env('DB_CHARSET', 'utf8mb4'),
             'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),

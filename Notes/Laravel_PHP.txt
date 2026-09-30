@@ -54,3 +54,7 @@ repository  : database operations
 Model       : eloquent/database representation 
 Resource    : tranform data into API JSON
 
+* what is laravel migrations explain with core points: 
+laravel migration file are blueprint to create the table:
+version-controller database change written in PHP 
+describing how to move DB forword and when possible how to undo that change.
