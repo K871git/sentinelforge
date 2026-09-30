@@ -58,3 +58,12 @@ Resource    : tranform data into API JSON
 laravel migration file are blueprint to create the table:
 version-controller database change written in PHP 
 describing how to move DB forword and when possible how to undo that change.
+
+up():
+-- in up method we define the change that should be made in database when migration runs
+
+Migration
+   |
+   +-- up()   → Apply the database change
+   |
+   +-- down() → Undo the database change
