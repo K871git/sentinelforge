@@ -47,3 +47,11 @@ return new class extends Migration
         Schema::dropIfExists('sessions');
     }
 };
+
+/**
+ * users
+roles
+permissions
+role_user
+permission_role
+ */
