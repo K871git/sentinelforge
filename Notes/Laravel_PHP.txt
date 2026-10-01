@@ -81,6 +81,7 @@ down():
 COMMAND ::  php artisan migrate:rollback
             php artisan migrate:reset
             php artisan migrate:rollback --step=1 // most recent how many migration want to rollback
+            
 
 
 Migration
