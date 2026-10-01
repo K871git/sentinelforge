@@ -71,6 +71,19 @@ up():
 -- using of Schema::create(), tells laravel to create table and gives the blueprint through Blueprint object
 -- At the time of migration, laravel convert the Blueprint definations into the SQL and executes it against the database 
 
+COMMAND :: php artisan migrate --path database/migrations/<migration name>
+
+down():
+-- we write in down method about dropping the tables etc at the time of rollback, 
+-- when i rollback that time i need to write the drop or delete to that table
+-- if i dont write the drop or dropifexists method then only from migrations table the entry get deleted and table remains in DB
+
+COMMAND ::  php artisan migrate:rollback
+            php artisan migrate:reset
+            php artisan migrate:rollback --step=1 // most recent how many migration want to rollback
+            
+
+
 Migration
    |
    +-- up()   → Apply the database change
