@@ -62,6 +62,15 @@ describing how to move DB forword and when possible how to undo that change.
 up():
 -- in up method we define the change that should be made in database when migration runs
 
+-- Migration class provide the up() and down() method
+-- at the time of migration the up method get called where all the database changes get instructed
+-- at the time of rollback down() method get called
+
+-- Blueprint is the class that provide and let me write and define the table blueprint : Blueprint $table 
+-- Blueprint $table is an object that lets you define the structure of a table
+-- using of Schema::create(), tells laravel to create table and gives the blueprint through Blueprint object
+-- At the time of migration, laravel convert the Blueprint definations into the SQL and executes it against the database 
+
 Migration
    |
    +-- up()   → Apply the database change
