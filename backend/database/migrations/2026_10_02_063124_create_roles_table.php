@@ -8,16 +8,16 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('exampleTest', function (Blueprint $table) {
+        Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamps(); // created_at and updated_at created automatically
+            $table->string('name', 100)->unique();
+            $table->string('description', 255)->nullable();
+            $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('exampleTest');
+        Schema::dropIfExists('roles');
     }
 };

@@ -89,3 +89,7 @@ Migration
    +-- up()   → Apply the database change
    |
    +-- down() → Undo the database change
+
+
+-- while writing the migrations : if i dont specify the string length (which is VARCHAR apperently) then laravel assumes 255 by default 
+string is for VARCHAR and text creates TEXT datatype column where it used for longer content where iI don't specify a length
