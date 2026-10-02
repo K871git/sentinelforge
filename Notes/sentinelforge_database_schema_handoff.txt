@@ -1,0 +1,322 @@
+SENTINELFORGE — DATABASE SCHEMA HANDOFF For: Backend Chat Database:
+MySQL 8.4 Scope: 15 application tables (Laravel users table + 14
+additional application tables)
+
+Purpose This document records the planned/current table structures from
+the database-design work so the backend can inspect and integrate them.
+Laravel framework tables such as cache, cache_locks, failed_jobs,
+job_batches, jobs, migrations, password_reset_tokens, and sessions are
+outside this 15-table application schema.
+
+Conventions - BIGINT UNSIGNED AUTO_INCREMENT primary keys are
+represented by Laravel’s $table->id(). - Laravel foreignId() creates an
+UNSIGNED BIGINT column. - Timestamps are DATETIME/TIMESTAMP columns
+according to Laravel/MySQL mapping. - JSON fields use MySQL’s native
+JSON type. - Nullable means NULL is allowed. - Unless otherwise stated,
+created_at and updated_at are nullable Laravel timestamps. - The
+structures below reflect the migrations discussed. Application-level
+validation (for example, allowed status/severity values) is not
+represented as a database CHECK constraint.
+
+1.  users Purpose: Application user accounts. This table modifies
+    Laravel’s standard users table.
+
+Fields: - id: BIGINT UNSIGNED, primary key, auto-increment - name:
+VARCHAR(255), NOT NULL - email: VARCHAR(255), NOT NULL, UNIQUE -
+email_verified_at: TIMESTAMP, NULL - password: VARCHAR(255), NOT NULL -
+remember_token: VARCHAR(100), NULL - is_active: BOOLEAN/TINYINT(1), NOT
+NULL, DEFAULT TRUE - last_login_at: TIMESTAMP, NULL - created_at:
+TIMESTAMP, NULL - updated_at: TIMESTAMP, NULL
+
+Indexes/constraints: - PRIMARY KEY (id) - UNIQUE (email) - INDEX
+(is_active)
+
+Foreign keys: - None
+
+Notes: - email_verified_at and remember_token are present in the usual
+Laravel users migration. - If the existing users migration differs,
+preserve its actual fields and apply only the users-table alteration
+migration.
+
+2.  roles Purpose: Named authorization roles.
+
+Fields: - id: BIGINT UNSIGNED, primary key, auto-increment - name:
+VARCHAR(100), NOT NULL, UNIQUE - description: VARCHAR(255), NULL -
+created_at: TIMESTAMP, NULL - updated_at: TIMESTAMP, NULL
+
+Indexes/constraints: - PRIMARY KEY (id) - UNIQUE (name)
+
+Foreign keys: - None
+
+3.  permissions Purpose: Individual application permissions.
+
+Fields: - id: BIGINT UNSIGNED, primary key, auto-increment - name:
+VARCHAR(150), NOT NULL, UNIQUE - description: VARCHAR(255), NULL -
+created_at: TIMESTAMP, NULL - updated_at: TIMESTAMP, NULL
+
+Indexes/constraints: - PRIMARY KEY (id) - UNIQUE (name)
+
+Foreign keys: - None
+
+4.  role_user Purpose: Many-to-many pivot table connecting users and
+    roles.
+
+Fields: - id: BIGINT UNSIGNED, primary key, auto-increment - user_id:
+BIGINT UNSIGNED, NOT NULL - role_id: BIGINT UNSIGNED, NOT NULL -
+created_at: TIMESTAMP, NULL - updated_at: TIMESTAMP, NULL
+
+Indexes/constraints: - PRIMARY KEY (id) - UNIQUE (user_id, role_id)
+
+Foreign keys: - user_id REFERENCES users(id), ON DELETE CASCADE, ON
+UPDATE CASCADE (Laravel constrained default) - role_id REFERENCES
+roles(id), ON DELETE CASCADE, ON UPDATE CASCADE (Laravel constrained
+default)
+
+5.  permission_role Purpose: Many-to-many pivot table connecting roles
+    and permissions.
+
+Fields: - id: BIGINT UNSIGNED, primary key, auto-increment -
+permission_id: BIGINT UNSIGNED, NOT NULL - role_id: BIGINT UNSIGNED, NOT
+NULL - created_at: TIMESTAMP, NULL - updated_at: TIMESTAMP, NULL
+
+Indexes/constraints: - PRIMARY KEY (id) - UNIQUE (permission_id,
+role_id)
+
+Foreign keys: - permission_id REFERENCES permissions(id), ON DELETE
+CASCADE, ON UPDATE CASCADE - role_id REFERENCES roles(id), ON DELETE
+CASCADE, ON UPDATE CASCADE
+
+6.  security_events Purpose: Records security-related observations and
+    events.
+
+Fields: - id: BIGINT UNSIGNED, primary key, auto-increment - user_id:
+BIGINT UNSIGNED, NULL - event_type: VARCHAR(100), NOT NULL - severity:
+VARCHAR(20), NOT NULL, DEFAULT ‘low’ - source: VARCHAR(100), NOT NULL -
+action: VARCHAR(150), NOT NULL - description: TEXT, NULL - ip_address:
+VARCHAR(45), NULL - user_agent: TEXT, NULL - metadata: JSON, NULL -
+occurred_at: TIMESTAMP, NOT NULL - created_at: TIMESTAMP, NULL -
+updated_at: TIMESTAMP, NULL
+
+Indexes/constraints: - PRIMARY KEY (id) - INDEX (event_type) - INDEX
+(severity) - INDEX (source) - INDEX (occurred_at) - INDEX (user_id,
+occurred_at)
+
+Foreign keys: - user_id REFERENCES users(id), ON DELETE SET NULL, ON
+UPDATE CASCADE
+
+7.  incidents Purpose: Tracks security incidents that may require
+    response or investigation.
+
+Fields: - id: BIGINT UNSIGNED, primary key, auto-increment -
+incident_number: VARCHAR(50), NOT NULL, UNIQUE - title: VARCHAR(255),
+NOT NULL - description: TEXT, NULL - severity: VARCHAR(20), NOT NULL,
+DEFAULT ‘medium’ - status: VARCHAR(30), NOT NULL, DEFAULT ‘open’ -
+security_event_id: BIGINT UNSIGNED, NULL - reported_by: BIGINT UNSIGNED,
+NULL - assigned_to: BIGINT UNSIGNED, NULL - detected_at: TIMESTAMP, NOT
+NULL - resolved_at: TIMESTAMP, NULL - created_at: TIMESTAMP, NULL -
+updated_at: TIMESTAMP, NULL
+
+Indexes/constraints: - PRIMARY KEY (id) - UNIQUE (incident_number) -
+INDEX (status, severity) - INDEX (detected_at)
+
+Foreign keys: - security_event_id REFERENCES security_events(id), ON
+DELETE SET NULL, ON UPDATE CASCADE - reported_by REFERENCES users(id),
+ON DELETE SET NULL, ON UPDATE CASCADE - assigned_to REFERENCES
+users(id), ON DELETE SET NULL, ON UPDATE CASCADE
+
+8.  incident_investigations Purpose: Stores investigation activities,
+    notes, findings, and progress for an incident.
+
+Fields: - id: BIGINT UNSIGNED, primary key, auto-increment -
+incident_id: BIGINT UNSIGNED, NOT NULL - investigator_id: BIGINT
+UNSIGNED, NULL - activity_type: VARCHAR(50), NOT NULL - notes: TEXT,
+NULL - findings: TEXT, NULL - status: VARCHAR(30), NOT NULL, DEFAULT
+‘in_progress’ - created_at: TIMESTAMP, NULL - updated_at: TIMESTAMP,
+NULL
+
+Indexes/constraints: - PRIMARY KEY (id) - INDEX (incident_id,
+created_at) - INDEX (investigator_id)
+
+Foreign keys: - incident_id REFERENCES incidents(id), ON DELETE CASCADE,
+ON UPDATE CASCADE - investigator_id REFERENCES users(id), ON DELETE SET
+NULL, ON UPDATE CASCADE
+
+9.  vulnerabilities Purpose: Stores vulnerability knowledge and
+    remediation information.
+
+Fields: - id: BIGINT UNSIGNED, primary key, auto-increment - cve_id:
+VARCHAR(30), NULL, UNIQUE - title: VARCHAR(255), NOT NULL - description:
+TEXT, NULL - severity: VARCHAR(20), NOT NULL, DEFAULT ‘medium’ -
+cvss_score: DECIMAL(3,1), NULL - affected_product: VARCHAR(255), NULL -
+affected_version: VARCHAR(255), NULL - remediation: TEXT, NULL -
+references: JSON, NULL - published_at: TIMESTAMP, NULL - created_at:
+TIMESTAMP, NULL - updated_at: TIMESTAMP, NULL
+
+Indexes/constraints: - PRIMARY KEY (id) - UNIQUE (cve_id) — multiple
+NULL values are permitted by MySQL - INDEX (severity) - INDEX
+(published_at)
+
+Foreign keys: - None
+
+10. security_checklists Purpose: Stores reusable security checklist
+    definitions.
+
+Fields: - id: BIGINT UNSIGNED, primary key, auto-increment -
+checklist_key: VARCHAR(100), NOT NULL, UNIQUE - category: VARCHAR(100),
+NOT NULL - title: VARCHAR(255), NOT NULL - description: TEXT, NULL -
+guidance: TEXT, NULL - severity: VARCHAR(20), NOT NULL, DEFAULT
+‘medium’ - is_active: BOOLEAN/TINYINT(1), NOT NULL, DEFAULT TRUE -
+sort_order: INT UNSIGNED, NOT NULL, DEFAULT 0 - created_at: TIMESTAMP,
+NULL - updated_at: TIMESTAMP, NULL
+
+Indexes/constraints: - PRIMARY KEY (id) - UNIQUE (checklist_key) - INDEX
+(category, is_active)
+
+Foreign keys: - None
+
+11. labs Purpose: Defines controlled cybersecurity learning/practice
+    labs.
+
+Fields: - id: BIGINT UNSIGNED, primary key, auto-increment - lab_key:
+VARCHAR(100), NOT NULL, UNIQUE - title: VARCHAR(255), NOT NULL -
+description: TEXT, NULL - category: VARCHAR(100), NOT NULL - difficulty:
+VARCHAR(30), NOT NULL, DEFAULT ‘beginner’ - instructions: TEXT, NULL -
+configuration: JSON, NULL - is_active: BOOLEAN/TINYINT(1), NOT NULL,
+DEFAULT TRUE - created_by: BIGINT UNSIGNED, NULL - created_at:
+TIMESTAMP, NULL - updated_at: TIMESTAMP, NULL
+
+Indexes/constraints: - PRIMARY KEY (id) - UNIQUE (lab_key) - INDEX
+(category, is_active) - INDEX (difficulty)
+
+Foreign keys: - created_by REFERENCES users(id), ON DELETE SET NULL, ON
+UPDATE CASCADE
+
+12. automation_runs Purpose: Tracks controlled automation operations and
+    their outcomes.
+
+Fields: - id: BIGINT UNSIGNED, primary key, auto-increment - user_id:
+BIGINT UNSIGNED, NULL - lab_id: BIGINT UNSIGNED, NULL - operation:
+VARCHAR(100), NOT NULL - status: VARCHAR(30), NOT NULL, DEFAULT
+‘pending’ - input: JSON, NULL - result: JSON, NULL - error_message:
+TEXT, NULL - started_at: TIMESTAMP, NULL - completed_at: TIMESTAMP,
+NULL - created_at: TIMESTAMP, NULL - updated_at: TIMESTAMP, NULL
+
+Indexes/constraints: - PRIMARY KEY (id) - INDEX (status, created_at) -
+INDEX (user_id, created_at) - INDEX (lab_id)
+
+Foreign keys: - user_id REFERENCES users(id), ON DELETE SET NULL, ON
+UPDATE CASCADE - lab_id REFERENCES labs(id), ON DELETE SET NULL, ON
+UPDATE CASCADE
+
+13. ai_analyses Purpose: Stores AI-assisted analysis requests and
+    results.
+
+Fields: - id: BIGINT UNSIGNED, primary key, auto-increment - user_id:
+BIGINT UNSIGNED, NULL - security_event_id: BIGINT UNSIGNED, NULL -
+incident_id: BIGINT UNSIGNED, NULL - analysis_type: VARCHAR(100), NOT
+NULL - model_name: VARCHAR(150), NULL - status: VARCHAR(30), NOT NULL,
+DEFAULT ‘pending’ - input: JSON, NULL - result: JSON, NULL -
+error_message: TEXT, NULL - started_at: TIMESTAMP, NULL - completed_at:
+TIMESTAMP, NULL - created_at: TIMESTAMP, NULL - updated_at: TIMESTAMP,
+NULL
+
+Indexes/constraints: - PRIMARY KEY (id) - INDEX (status, created_at) -
+INDEX (analysis_type, created_at)
+
+Foreign keys: - user_id REFERENCES users(id), ON DELETE SET NULL, ON
+UPDATE CASCADE - security_event_id REFERENCES security_events(id), ON
+DELETE SET NULL, ON UPDATE CASCADE - incident_id REFERENCES
+incidents(id), ON DELETE SET NULL, ON UPDATE CASCADE
+
+14. audit_logs Purpose: Records important actions performed within
+    SentinelForge.
+
+Fields: - id: BIGINT UNSIGNED, primary key, auto-increment - user_id:
+BIGINT UNSIGNED, NULL - action: VARCHAR(150), NOT NULL - auditable_type:
+VARCHAR(100), NULL - auditable_id: BIGINT UNSIGNED, NULL - old_values:
+JSON, NULL - new_values: JSON, NULL - ip_address: VARCHAR(45), NULL -
+user_agent: TEXT, NULL - created_at: TIMESTAMP, NOT NULL, DEFAULT
+CURRENT_TIMESTAMP
+
+Indexes/constraints: - PRIMARY KEY (id) - INDEX (auditable_type,
+auditable_id) - INDEX (user_id, created_at) - INDEX (action)
+
+Foreign keys: - user_id REFERENCES users(id), ON DELETE SET NULL, ON
+UPDATE CASCADE
+
+Notes: - This is a polymorphic reference pair (auditable_type,
+auditable_id), not a conventional foreign key. It cannot enforce a
+foreign key to multiple possible tables. - The migration intentionally
+has no updated_at column.
+
+15. reports Purpose: Tracks generated reports and their stored
+    data/files.
+
+Fields: - id: BIGINT UNSIGNED, primary key, auto-increment - user_id:
+BIGINT UNSIGNED, NULL - title: VARCHAR(255), NOT NULL - report_type:
+VARCHAR(100), NOT NULL - status: VARCHAR(30), NOT NULL, DEFAULT
+‘pending’ - filters: JSON, NULL - data: JSON, NULL - file_path:
+VARCHAR(500), NULL - file_format: VARCHAR(20), NULL - error_message:
+TEXT, NULL - generated_at: TIMESTAMP, NULL - created_at: TIMESTAMP,
+NULL - updated_at: TIMESTAMP, NULL
+
+Indexes/constraints: - PRIMARY KEY (id) - INDEX (report_type,
+created_at) - INDEX (status, created_at) - INDEX (user_id, created_at)
+
+Foreign keys: - user_id REFERENCES users(id), ON DELETE SET NULL, ON
+UPDATE CASCADE
+
+RELATIONSHIP SUMMARY
+
+-   users 1-to-many security_events (security_events.user_id; nullable)
+-   users many-to-many roles through role_user
+-   roles many-to-many permissions through permission_role
+-   security_events 1-to-many incidents (incidents.security_event_id;
+    nullable; multiple incidents may reference one event)
+-   incidents 1-to-many incident_investigations
+-   users 1-to-many incidents as reporter (incidents.reported_by;
+    nullable)
+-   users 1-to-many incidents as assignee (incidents.assigned_to;
+    nullable)
+-   users 1-to-many incident_investigations as investigator
+    (incident_investigations.investigator_id; nullable)
+-   users 1-to-many labs as creator (labs.created_by; nullable)
+-   users 1-to-many automation_runs (automation_runs.user_id; nullable)
+-   labs 1-to-many automation_runs (automation_runs.lab_id; nullable)
+-   users 1-to-many ai_analyses (ai_analyses.user_id; nullable)
+-   security_events 1-to-many ai_analyses
+    (ai_analyses.security_event_id; nullable)
+-   incidents 1-to-many ai_analyses (ai_analyses.incident_id; nullable)
+-   users 1-to-many audit_logs (audit_logs.user_id; nullable)
+-   users 1-to-many reports (reports.user_id; nullable)
+
+IMPORTANT IMPLEMENTATION NOTES FOR BACKEND CHAT
+
+1.  This is a schema handoff, not a claim that all migrations have been
+    run or verified against the live database.
+2.  Confirm the actual existing users migration before assuming its
+    exact default columns.
+3.  The previously supplied security_events migration requires
+    occurred_at with no default. Backend code must provide it when
+    inserting an event.
+4.  Validate severity, status, event_type, operation, and other
+    controlled values in Laravel. The listed migrations do not add CHECK
+    constraints for these fields.
+5.  Treat security_events and audit_logs as security-sensitive records.
+    Restrict access server-side and avoid storing passwords, tokens,
+    secrets, or unnecessary sensitive payloads in JSON/text fields.
+6.  The current schema uses cascading deletes for role_user,
+    permission_role, and incident_investigations. It uses SET NULL for
+    most user/event references to preserve related records.
+7.  The current incidents design permits only one optional source
+    security_event_id per incident. If an incident must group multiple
+    events, introduce a separate incident-event pivot table in a later
+    schema revision.
+8.  The current security_checklists table stores checklist definitions
+    only. If the application must track per-user/per-run checklist
+    answers, a separate checklist execution/results table will be needed
+    later.
+9.  The current vulnerabilities table is a knowledge catalog and is not
+    linked directly to incidents.
+10. For MySQL 8.4, ensure the database uses InnoDB and a compatible
+    character set/collation, typically utf8mb4.
