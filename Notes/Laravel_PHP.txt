@@ -95,3 +95,5 @@ Migration
 string is for VARCHAR and text creates TEXT datatype column where it used for longer content where iI don't specify a length
 
 
+* How sanctum's laravel session-based authentication works in simple ?
+-- SPA client ask for csrf-cookie to laravel, 
