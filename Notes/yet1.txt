@@ -1,3 +1,0 @@
- 
-
-The malicious site normally cannot read your myapp.com XSRF token because of the browser's same-origin restrictions.
