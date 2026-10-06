@@ -96,4 +96,33 @@ string is for VARCHAR and text creates TEXT datatype column where it used for lo
 
 
 * How sanctum's laravel session-based authentication works in simple ?
--- SPA client ask for csrf-cookie to laravel, 
+The SPA first requests the CSRF cookie from Laravel:
+GET /sanctum/csrf-cookie
+Laravel sets the XSRF-TOKEN cookie in the browser.
+
+Unless I write custom backend middleware that explicitly rejects other origins, the stateful configuration in Sanctum does not mean that only my SPA domain can send requests to Laravel. It mainly tells Sanctum which requests should be treated as stateful SPA requests and use cookie-based authentication.
+
+CSRF protection is needed because a user's browser may already have a valid Laravel session cookie.
+For example, the user logs into myapp.com, and the browser stores the Laravel session cookie.
+
+Later, the user visits evil.com. The malicious site can potentially cause the browser to send a request to api.myapp.com.
+Depending on the cookie's settings (SameSite, domain, path, etc.), the browser may automatically attach the api.myapp.com session cookie to that request.
+
+Laravel may therefore see a valid authenticated session, even though the request was initiated by evil.com.
+CSRF protection requires an additional CSRF token for state-changing requests.
+
+evil.com normally cannot read the myapp.com/api.myapp.com CSRF token because of the browser's same-origin restrictions.
+Therefore, the malicious request may contain the session cookie but not the required CSRF token, so Laravel rejects the request.
+
+The legitimate SPA has access to the CSRF token and sends it with the request, so Laravel can accept it.
+So, in simple terms: the session cookie identifies the user, while the CSRF token helps prevent another website from forging a request using that user's session.
+
+php artisan install:api : this command will install the sanctum 
+
+* How actually load balancer works?
+Load Balancer manage and devide the requests between the servers for better availability, and prevent an single server getting overloaded
+
+: there is one app: where devops team create copies or instances of the laravel app in the server 
+its called horizontal scaling
+: another method is vertical scaling : instead of creating more instances make same server more powerful : from 4 CPU 16 GB RAM to 8 CPU 32 GB RAM  
+
