@@ -126,3 +126,27 @@ Load Balancer manage and devide the requests between the servers for better avai
 its called horizontal scaling
 : another method is vertical scaling : instead of creating more instances make same server more powerful : from 4 CPU 16 GB RAM to 8 CPU 32 GB RAM  
 
+
+* explain different types of security attacks : 
+SQL injection : 
+-- is developer somehow use an concat query inside the backend while quering the database, an attacker can bypass the login or access check by doing 
+for php -> ' OR '1'=='1' -- example :
+select * from users where email='' or '1'='1' --'
+
+solution : either bind the value in querybuilder ok in raw PHP use parameterized query : 
+querybuilder   : $user=DB::table('users')->where('email',$email)->first(); //super simple no concatination
+parameterized  : 
+$users=DB:select(
+'SELECT * FROM users WHERE email = ?',[$email]
+);
+
+XSS : cross-site scripting 
+an attacker inject an code content into the non validated input and that content interpreted as part of the page and make that content executable
+validate() does not automatically prevent XSS
+
+CSRF : cross site request forgery
+the main damage that csrf causes that it causing an unauthenticated actions like :
+changing personal details, posting content, making transection 
+
+suppose user A logs in bank.com : then user A goes on the malicious site : that site made browser send an request to the bank.com : browser suppose that user's choice : 
+then if the bank.com is not csrf protected then request directly goes in login session and make an malicious activities
