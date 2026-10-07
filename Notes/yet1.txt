@@ -5,3 +5,95 @@ monitoring
 strong password policies
 breached-password detection
 account/session protections
+
+
+
+------------------------------------------------------LARAVEL 
+
+SentinelForge Backend Development Map
+Backend Foundation
+Laravel 13 project/environment
+MySQL 8.4 connection
+Existing migrations/schema verification
+Basic Laravel structure
+GET /api/health
+Basic feature tests
+
+API Architecture
+
+Routes
+Controllers
+Form Requests
+Services / business logic
+Eloquent Models & relationships
+API Resources
+Consistent API responses/errors
+Decide where Repository Pattern genuinely helps
+
+Flow:
+Request → FormRequest → Controller → Service → Model/Repository → Resource → JSON Response
+
+Authentication
+Laravel Sanctum
+Registration
+Login
+Logout
+Current user
+Protected routes
+Authentication failure handling
+Tests
+Authorization
+Roles
+Permissions
+Policies
+Ownership/IDOR protection
+Server-side authorization
+Authorization tests
+Security Foundation
+Backend validation
+Rate limiting
+Audit logging
+Security events
+Secure file handling
+API security/error handling
+Core Cybersecurity APIs
+Build APIs progressively around:
+Security Events
+Incidents
+Investigations
+Vulnerabilities
+Security Checklists
+Labs
+Automation Runs
+AI Analyses
+Reports
+External Service Contracts
+Laravel ↔ Python AI contract
+Laravel ↔ Automation contract
+Backend validates and controls both integrations
+No implementation of Python/PowerShell here
+Testing & Postman Verification
+Laravel feature/unit tests
+Authentication tests
+Authorization/security tests
+Validation/error tests
+CRUD/API behavior
+Test important relationships
+Postman collection for manually verifying the complete API
+Verify success + failure scenarios
+
+Backend Completion Gate
+
+Before moving to Frontend, we should be able to say:
+
+Database → Laravel → API → Authentication → Authorization → Security → Tests → Postman verified
+
+At that point, the Frontend Chat gets stable API contracts and consumes the APIs rather than inventing backend behavior.
+
+Then Phase 2
+React foundation
+API consumption
+Routing/UI
+Authentication UI
+Role-aware UI
+Frontend validation/error/loading states
