@@ -150,3 +150,17 @@ changing personal details, posting content, making transection
 
 suppose user A logs in bank.com : then user A goes on the malicious site : that site made browser send an request to the bank.com : browser suppose that user's choice : 
 then if the bank.com is not csrf protected then request directly goes in login session and make an malicious activities
+
+* what is $middleware->statefulApi() : 
+
+this tells larvel that incoming request treated them as stateful
+like requests from a regular browser app—so Sanctum can use Laravel’s session cookies for authentication.
+
+laravel validation : 
+email => 'unique' : laravel automatically searches in the DB and return if ther is any dubplicate entry
+for custom confirm field add : password =>'confirm:custom_confirm' : if want to use another name instead of password_confirmation which is laravel default
+
+making an class : php artisan make:class classname
+
+
+* explain the construct in php ?
