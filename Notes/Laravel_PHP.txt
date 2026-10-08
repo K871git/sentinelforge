@@ -158,3 +158,9 @@ like requests from a regular browser app—so Sanctum can use Laravel’s sessio
 
 laravel validation : 
 email => 'unique' : laravel automatically searches in the DB and return if ther is any dubplicate entry
+for custom confirm field add : password =>'confirm:custom_confirm' : if want to use another name instead of password_confirmation which is laravel default
+
+making an class : php artisan make:class classname
+
+
+* explain the construct in php ?
