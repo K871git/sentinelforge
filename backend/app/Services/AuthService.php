@@ -2,6 +2,10 @@
 
 namespace App\Services;
 
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+
 class AuthService
 {
     /**
@@ -18,8 +22,16 @@ class AuthService
         Return User
      * 
      */
-    public function __construct()
+    public function register(array $data): User
     {
-        //
+        // register service logic
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => $data['password'],
+        ]);
+
+        $user = $user->refresh();
+        return $user;
     }
 }

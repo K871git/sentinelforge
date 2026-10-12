@@ -164,3 +164,8 @@ making an class : php artisan make:class classname
 
 
 * explain the construct in php ?
+constructor is an method in class, which invoke at the time of object creation, automatically instanciate the variables
+
+public function __construct(){}
+
+
