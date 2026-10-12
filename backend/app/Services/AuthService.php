@@ -3,25 +3,11 @@
 namespace App\Services;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class AuthService
 {
-    /**
-     * Create a new class instance.
-     * 
-     *  Validate input
-            ↓
-        Hash password
-            ↓
-        Create User
-            ↓
-        Authenticate user
-            ↓
-        Return User
-     * 
-     */
     public function register(array $data): User
     {
         // register service logic
@@ -33,5 +19,11 @@ class AuthService
 
         $user = $user->refresh();
         return $user;
+    }
+
+    public function login(array $credentials): bool
+    {
+        $attempt = Auth::guard('web')->attempt($credentials);
+        return $attempt;
     }
 }

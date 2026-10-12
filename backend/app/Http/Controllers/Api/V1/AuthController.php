@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Services\AuthService;
@@ -20,11 +21,7 @@ class AuthController extends Controller
     public function register(RegisterRequest $request)
     {
         try {
-
             $user = $this->authService->register($request->validated());
-            Log::info("userinfo", [
-                "userdata" => $user
-            ]);
             return new UserResource($user);
         } catch (Exception $e) {
             Log::error("Error", [
@@ -38,6 +35,11 @@ class AuthController extends Controller
                 "message" => "Something went wrong..!",
             ], 500);
         }
+    }
+
+    public function login(LoginRequest $request)
+    {
+        $is_logged_in = $this->authService->login([$request->email, $request->password]);
     }
 }
     //register()
