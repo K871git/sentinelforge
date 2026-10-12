@@ -164,3 +164,11 @@ making an class : php artisan make:class classname
 
 
 * explain the construct in php ?
+constructor is an method in class, which invoke at the time of object creation, automatically instanciate the variables
+
+public function __construct(){}
+
+* explain auth::guard and attempt : how it works bts ?
+guard('web') or guard('api') check weather its session based or token based login
+attempt method check and verify provided credentials againt the stored in the database
+

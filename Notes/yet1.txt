@@ -97,3 +97,5 @@ Routing/UI
 Authentication UI
 Role-aware UI
 Frontend validation/error/loading states
+
+rate limiting | load shedding. | error rates
