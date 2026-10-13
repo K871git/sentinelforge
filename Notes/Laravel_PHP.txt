@@ -172,3 +172,20 @@ public function __construct(){}
 guard('web') or guard('api') check weather its session based or token based login
 attempt method check and verify provided credentials againt the stored in the database
 
+* what is the session fixation attack:
+
+Its an attack where attacker knows the victim's session ID and when after login session ID stays same then attacker can hijack the authenticated session
+by laravel using $request->session()->regenrate(); method allows to regenrate the session ID. it replaces the session ID after authentication.
+
+
+* Auth::attempt() : 
+suppose i pass the email and password to the attempt :
+1) it checks the email and run query about where email '?
+2) then it perform the Hash::check ($plaintext, hashed value)
+so based on this it check the column names in the database,
+basically doint foreach on names of columns 
+then validate it and logged user in
+
+Service has zero knowledge of HTTP/session
+Inactive user never touches attempt()
+No redundant validation
