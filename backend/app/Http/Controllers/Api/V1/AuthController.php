@@ -39,7 +39,7 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
-        $is_logged_in = $this->authService->login([$request->email, $request->password]);
+        $is_logged_in = $this->authService->login($request->validated());
     }
 }
     //register()

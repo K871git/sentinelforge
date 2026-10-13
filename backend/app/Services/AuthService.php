@@ -16,14 +16,24 @@ class AuthService
             'email' => $data['email'],
             'password' => $data['password'],
         ]);
-
         $user = $user->refresh();
         return $user;
     }
 
     public function login(array $credentials): bool
     {
-        $attempt = Auth::guard('web')->attempt($credentials);
-        return $attempt;
+        $user = User::where('email', $credentials['email'])->first();
+
+        if (!$user || !$user->is_active) {
+            return false;
+        }
+        $guard = Auth::guard('web');
+        if (!$guard->attempt($credentials)) {
+            return false;
+        }
+
+        request()->session()->regenerate();
+
+        return true;
     }
 }
