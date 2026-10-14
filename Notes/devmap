@@ -1,0 +1,41 @@
+What's next — in order:
+
+
+1. user()        → GET /api/user        [protected route]
+2. logout()      → POST /api/logout     [protected route]
+3. Protected route setup  → auth:sanctum middleware
+4. Inactive user protection  → already in service ✓
+5. Rate limiting  → throttle login endpoint
+6. Auth error contract  → consistent 401/422/500 responses
+7. Feature tests  → AuthenticationTest
+8. Postman verification  → full lifecycle test
+Then after auth is complete:
+
+
+Authorization
+   ↓
+Roles & Permissions
+   ↓
+Policies & Gates
+   ↓
+Security Events API
+   ↓
+Incidents API
+   ↓
+Investigations API
+   ↓
+Vulnerabilities API
+   ↓
+Checklists API
+   ↓
+Labs API
+   ↓
+Automation Runs API
+   ↓
+AI Analyses API
+   ↓
+Reports API
+   ↓
+Audit Logging
+   ↓
+Frontend (React)

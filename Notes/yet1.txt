@@ -98,4 +98,4 @@ Authentication UI
 Role-aware UI
 Frontend validation/error/loading states
 
-rate limiting | load shedding. | error rates
+rate limiting | load shedding. | error rates | CSRF logout attack.

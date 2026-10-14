@@ -189,3 +189,8 @@ then validate it and logged user in
 Service has zero knowledge of HTTP/session
 Inactive user never touches attempt()
 No redundant validation
+
+* Explain rate limiting :
+Rate limiting is an method by which an developer protects its API endpoints from brute-force attempts, abuse and overcrowding.
+Rate limiting means we cap the endpoint how often the client can make request within time window.
+
