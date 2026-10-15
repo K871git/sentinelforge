@@ -194,3 +194,19 @@ No redundant validation
 Rate limiting is an method by which an developer protects its API endpoints from brute-force attempts, abuse and overcrowding.
 Rate limiting means we cap the endpoint how often the client can make request within time window.
 
+RateLimiter::for('/login',function(Request $request){
+   return Limit::perMinute(5)->by($request->ip());
+});
+
+* explain test classes in laravel :
+test cases in laravel is way to check weather my application behaves correctly and as expected.
+typical laravel test follow the AAA pattern : Arrange->Act->Assert
+
+PHPUnit vs pest 
+pest is more function oriented based interface built upon the PHPUnit so many PHPUnit capabilities and configuration options remain abailable.
+
+-- using RefreshDatabase in test class : migrations get run and it give the each test a clean database state,
+With RefreshDatabase, Laravel generally runs migrations once per test run, not before every test.
+The first test checks the test database and runs migrations if needed.
+Later tests usually run inside transactions, then roll those transactions back.
+If the database is already migrated, Laravel may skip rerunning migrations.
