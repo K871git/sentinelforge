@@ -34,3 +34,13 @@
         <env name="NIGHTWATCH_ENABLED" value="false"/>
     </php>
 </phpunit>
+
+
+<!-- in case of the env malfunction
+<env name="DB_CONNECTION" value="mysql"/>
+<env name="DB_HOST" value="127.0.0.1"/>
+<env name="DB_PORT" value="3307"/>
+<env name="DB_DATABASE" value="sentinel_test"/>
+<env name="DB_USERNAME" value="santinel"/>
+<env name="DB_PASSWORD" value="santineldoom"/>
+ -->
