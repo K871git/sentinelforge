@@ -212,3 +212,18 @@ Later tests usually run inside transactions, then roll those transactions back.
 If the database is already migrated, Laravel may skip rerunning migrations.
 
 test function must start with `test_`
+
+
+-- laravel fake() uses the FakePHP library to genrate dummay data automatically. 
+facker returns the Faker genrator provided by Laravel.
+Faker uses predefined providers and data-genration methods for names, emails, addresses, numbers, etc.
+User::factory()->create(); saves the model to the database.
+factory()->count(n)->create(): it willcreate n number of fake records, espacially used in the seeders
+
+if i comment the configuration in the PHPUnit.xml file that time the testing get perform using the default .env credentials.
+so that threatens the truncate the whole db as in tests there is RefreshDatabase trait.
+
+post vs postJSON in writing test cases
+
+post typically send an form style post request and on error it redirect back to previous page
+postJSON set the Accept : application/json and send data as JSON, return the validations in json format

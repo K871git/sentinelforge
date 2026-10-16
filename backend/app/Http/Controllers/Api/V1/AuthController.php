@@ -48,7 +48,9 @@ class AuthController extends Controller
                 ], 401);
             }
 
-            $request->session()->regenerate();
+            if ($request->hasSession()) {
+                $request->session()->regenerate();
+            }
 
             return response()->json([
                 'status'  => true,
