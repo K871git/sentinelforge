@@ -25,7 +25,7 @@ class RegisterTest extends TestCase
         $response = $this->post('/api/register', $data);
 
         //Assert
-        $response->assertStatus(201);
+        $response->assertStatus(201); // successfull registration status code
         $this->assertDatabaseHas('users', [
             'name' => 'testcase1',
             'email' => 'testcase1@gmail.com',
