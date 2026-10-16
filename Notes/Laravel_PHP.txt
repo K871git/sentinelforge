@@ -223,3 +223,7 @@ factory()->count(n)->create(): it willcreate n number of fake records, espaciall
 if i comment the configuration in the PHPUnit.xml file that time the testing get perform using the default .env credentials.
 so that threatens the truncate the whole db as in tests there is RefreshDatabase trait.
 
+post vs postJSON in writing test cases
+
+post typically send an form style post request and on error it redirect back to previous page
+postJSON set the Accept : application/json and send data as JSON, return the validations in json format
