@@ -1,0 +1,549 @@
+================================================================================
+  HR ROUND — COMPLETE QUESTION BANK WITH ANSWERS
+  Practice this out loud. Read it, close it, say it. Then read again.
+  Simple English. Short sentences. Confident delivery.
+================================================================================
+
+HOW TO USE THIS FILE:
+  - Read the model answer once
+  - Close your eyes, say it in your own words
+  - Don't memorize word by word — memorize the STRUCTURE
+  - Practice the delivery tips every time
+
+GENERAL DELIVERY RULES (apply to every answer):
+  - Pause 3 seconds before you start answering
+  - Short sentences — say one point, stop, then continue
+  - Never say "umm", "like", "you know" — pause instead
+  - If you don't understand the question — say "Could you please rephrase that?"
+  - End every answer with a confident full stop — don't trail off
+  - Speak slower than you think you need to
+
+
+================================================================================
+  ROUND 1 — ABOUT YOU
+================================================================================
+
+--------------------------------------------------------------------------------
+Q1. "Tell me about yourself."
+--------------------------------------------------------------------------------
+TESTING: First impression | Can you structure your thoughts | Communication clarity
+
+STRUCTURE:  Current role → Key skills → Personal project → Strength → Why you're here
+
+MODEL ANSWER:
+  "Good afternoon. My name is Kishor Gangarde.
+
+  I am currently working as a Full Stack Developer at Biz Secure Lab Private
+  Limited. I have been there since June 2024 — coming up on 2.5 years now.
+
+  My core expertise is Laravel and REST API development. I also work with
+  JavaScript, MySQL, and I have experience with ClickHouse and PostgreSQL on
+  data-heavy projects.
+
+  Outside of work, I built a platform called CareerOS — a full-stack interview
+  preparation tool. The backend is Laravel with Sanctum authentication and the
+  frontend is React.
+
+  My strength is problem solving. I like breaking down complex requirements,
+  thinking about the best approach, and writing clean and efficient code.
+
+  I am here because I want to grow further. I want more ownership, more complex
+  engineering challenges, and I want to be part of a team that pushes me to
+  become a better developer.
+
+  That is a quick overview — I am happy to go deeper on anything."
+
+HOW TO DELIVER:
+  - Pause after "Good afternoon" — let it land
+  - Say "coming up on 2.5 years" with confidence — not hesitation
+  - Slow down on the CareerOS part — it is your strongest signal
+  - The last line "happy to go deeper" = control back to you, say it calmly
+  - Total time: 60 to 90 seconds max
+
+AVOID:
+  - Do not start with "My name is Kishor" (they know your name from the resume)
+  - Do not list every technology you know — pick the most relevant 3-4
+  - Do not go beyond 90 seconds
+
+
+--------------------------------------------------------------------------------
+Q2. "What is your current role and what do you do day to day?"
+--------------------------------------------------------------------------------
+TESTING: Self-awareness | Can you describe your work clearly to a non-technical person
+
+STRUCTURE: Role → Daily work → One thing you own or lead
+
+MODEL ANSWER:
+  "I am a Full Stack Developer at Biz Secure Lab.
+
+  On a day to day basis, I work on building and maintaining REST APIs using
+  Laravel. I handle database design and queries in MySQL. On the frontend, I
+  work with JavaScript to build responsive web interfaces.
+
+  I also work closely with my senior developers during code reviews and planning
+  sessions. Recently I have been working on integrating ClickHouse for handling
+  large volumes of event data.
+
+  One thing I take ownership of is making sure the APIs I build are clean,
+  well-structured, and easy for the frontend team to consume."
+
+HOW TO DELIVER:
+  - Say "day to day" clearly — it is a common phrase, say it naturally
+  - The last sentence is important — it shows ownership, say it with confidence
+  - Keep it under 60 seconds
+
+
+================================================================================
+  ROUND 2 — YOUR MOTIVATION
+================================================================================
+
+--------------------------------------------------------------------------------
+Q3. "Why are you leaving your current company?"
+--------------------------------------------------------------------------------
+TESTING: Stability | Professionalism | Are you running from something or moving toward something
+
+STRUCTURE: Gratitude → Growth reason (lead) → Practical reason (brief) → Forward look
+
+MODEL ANSWER:
+  "I am genuinely grateful to Biz Secure Lab. They gave me my first full-stack
+  role and I have learned a great deal there.
+
+  But I have reached a point where I want to grow further. I want to work on
+  more complex engineering problems, have more ownership over features, and work
+  in an environment where the team and the technical challenges push me to become
+  a stronger developer.
+
+  On the practical side, the compensation structure has shifted in a way that no
+  longer reflects my current experience level. So I feel this is the right time
+  to explore what is next.
+
+  I am not leaving out of frustration. I am moving forward because I want an
+  environment that helps me grow into a senior engineering role."
+
+HOW TO DELIVER:
+  - Say the gratitude line warmly — it sets a positive tone
+  - Say "I want to grow further" with energy — that is your real message
+  - The salary part: say it calmly, once, then move on — do not dwell on it
+  - The last line must sound forward-looking, not defensive
+
+AVOID:
+  - Never say "they cut my salary and did not explain"
+  - Never say "the company is not good" or "management is bad"
+  - Never repeat the salary reason twice
+
+
+--------------------------------------------------------------------------------
+Q4. "Where do you see yourself in 5 years?"
+--------------------------------------------------------------------------------
+TESTING: Ambition | Planning | Will you stay or leave in 6 months
+
+STRUCTURE: Short term goal → Medium term goal → How this company fits
+
+MODEL ANSWER:
+  "In the next two years, I want to deepen my expertise in backend architecture —
+  building scalable systems, making better design decisions, and understanding
+  how large applications work at a deeper level.
+
+  In the next four to five years, I see myself in a senior engineering role —
+  someone who can lead technical decisions, mentor junior developers, and take
+  full ownership of features from design to deployment.
+
+  I am looking for a company where I can build toward that. I do not want to jump
+  companies every year — I want to find the right place and grow there."
+
+HOW TO DELIVER:
+  - Say "two years" and "four to five years" clearly — it shows you have thought about it
+  - The last line about not jumping companies is reassuring to the interviewer
+  - Keep it under 60 seconds
+
+AVOID:
+  - Do not say "I want to start my own company" — that signals you will leave
+  - Do not say "I don't know" or "wherever the company takes me"
+
+
+--------------------------------------------------------------------------------
+Q5. "Why do you want to work at our company?"
+--------------------------------------------------------------------------------
+TESTING: Did you research us | Is this genuine interest or just any job
+
+STRUCTURE: One specific thing about the company → How it connects to your goals → Genuine enthusiasm
+
+MODEL ANSWER:
+  "Before this interview I went through your company's work and I found [mention
+  one real thing — their product, tech stack, team size, domain they work in].
+
+  That stood out to me because I want to work in an environment where [connect
+  to your goal — example: engineering quality matters, the team is growing,
+  the domain challenges you technically].
+
+  I genuinely believe this is the kind of place where I can contribute well and
+  also grow. That combination is what I am looking for."
+
+HOW TO DELIVER:
+  - You MUST research the company before the interview — Google them, check LinkedIn
+  - Replace [brackets] with real specific details about that company
+  - If you do not know enough — say "From what I have understood about your
+    company..." and then give what you do know
+  - Authenticity matters more than flattery
+
+AVOID:
+  - Do not say "you are a good company" — that means nothing
+  - Do not give a fake answer — interviewers can tell
+
+
+================================================================================
+  ROUND 3 — YOUR WORK BEHAVIOR
+================================================================================
+
+--------------------------------------------------------------------------------
+Q6. "Tell me about a conflict or disagreement you had at work."
+--------------------------------------------------------------------------------
+TESTING: Emotional maturity | Do you handle conflict professionally or emotionally
+
+STRUCTURE: STAR — Situation → Task → Action → Result
+
+MODEL ANSWER:
+  "About six months ago we were building a feature and the requirement changed
+  midway through — when we were already about 70 percent done.
+
+  My job was to deliver the original feature on time, but the new requirement
+  would have meant reworking several days of completed work.
+
+  I brought it up in our next standup. I explained the technical impact clearly —
+  that applying the change now would delay delivery. I suggested we complete the
+  current scope cleanly and plan the new requirement for the next sprint.
+
+  My senior agreed. We delivered the original feature on time and the new
+  requirement was planned properly without rushing. No messy half-finished code."
+
+HOW TO DELIVER:
+  - Say "STAR" in your head — Situation, Task, Action, Result
+  - Speak the action part with energy — that is where YOU show up
+  - The result must sound like a win — delivery on time, team agreed, clean code
+  - Keep it under 90 seconds
+
+AVOID:
+  - Do not say "I always handle conflict well" — that is not an answer
+  - Never say another person was wrong or blame anyone
+
+
+--------------------------------------------------------------------------------
+Q7. "Tell me about your biggest weakness."
+--------------------------------------------------------------------------------
+TESTING: Self-awareness | Honesty | Are you working on it
+
+STRUCTURE: State the weakness clearly → How it affects work → What you are doing about it
+
+MODEL ANSWER:
+  "My biggest weakness is that I tend to overthink before I start coding.
+
+  I want the design to be perfect before I write the first line. Sometimes I
+  spend too much time thinking about the right approach and that slows me down.
+
+  I have been working on this. I now set a time limit for myself during the
+  planning phase. If I do not have a clear answer in that time, I go with the
+  best current option and iterate from there.
+
+  It has helped me move faster without losing the quality of my thinking."
+
+HOW TO DELIVER:
+  - Do NOT start with "I am always improving myself" — say the weakness first
+  - Say it calmly — this is not a confession, it is self-awareness
+  - The improvement part must sound genuine — not just words
+  - Pause slightly before "I have been working on this" — it shows reflection
+
+AVOID:
+  - Do not say "I work too hard" — fake answers are obvious
+  - Do not give a personal/emotional answer — keep it professional
+
+
+--------------------------------------------------------------------------------
+Q8. "Tell me about an embarrassing or difficult moment at work."
+--------------------------------------------------------------------------------
+TESTING: Honesty | How you handle pressure | Do you learn from mistakes
+
+STRUCTURE: STAR + Lesson at the end
+
+MODEL ANSWER:
+  "About three months ago, I was giving a live demo of a feature I had built.
+
+  Midway through the demo, one of my senior developers started pointing out bugs
+  — but they were from a different project I had worked on earlier, not the
+  feature I was currently showing.
+
+  It was unexpected. I felt nervous. That other project was not even on my screen
+  so I could not see what he was referring to.
+
+  But I made a decision to stay calm. I listened carefully to everything he said
+  without interrupting. I acknowledged the issues and said I would look into them
+  after the demo. Then I completed the demo properly.
+
+  After it was done, I went back to my desk, found every bug he mentioned, fixed
+  them, and sent him a follow-up demo.
+
+  From that day, before any demo, I do a quick review of all related work — not
+  just the feature I am showing. I do not want to be caught off guard again."
+
+HOW TO DELIVER:
+  - The line "I made a decision to stay calm" is the strongest line — say it slowly
+  - "I do not want to be caught off guard again" = end with the lesson confidently
+  - This story shows composure + accountability + follow-through — that is rare
+  - Total time: about 90 seconds
+
+AVOID:
+  - Do not make the senior look bad
+  - Do not say "it was not my fault"
+
+
+--------------------------------------------------------------------------------
+Q9. "How do you handle pressure and tight deadlines?"
+--------------------------------------------------------------------------------
+TESTING: Stress management | Professional behavior under pressure
+
+STRUCTURE: Approach → Example → What you learned
+
+MODEL ANSWER:
+  "When I am under pressure, I first stop and prioritize. I break the work into
+  smaller pieces and identify what must be done first to unblock everything else.
+
+  I also communicate early. If I think a deadline is not realistic, I say so
+  with a reason — not at the last minute, but as soon as I see it.
+
+  One example — we had a production issue that needed a fix before the client
+  demo that afternoon. I isolated the bug quickly, fixed the core issue, tested
+  it, and informed my senior before the demo. The demo went fine.
+
+  I have learned that pressure is easier to handle when you are organized and
+  you communicate clearly rather than trying to handle everything alone."
+
+HOW TO DELIVER:
+  - Start with "I first stop and prioritize" — this shows discipline, not panic
+  - The example should be real — replace the example above with one of yours
+  - The last line is your takeaway — say it like you believe it
+
+
+--------------------------------------------------------------------------------
+Q10. "How do you handle feedback or criticism?"
+--------------------------------------------------------------------------------
+TESTING: Ego check | Growth mindset | Professionalism
+
+STRUCTURE: Mindset → Real example → What changed
+
+MODEL ANSWER:
+  "I see feedback as useful information — not as a personal attack.
+
+  Honestly, early in my job it was harder to hear criticism. I would feel
+  defensive for a moment. But I learned that the developer who accepts feedback
+  well improves faster than the one who argues.
+
+  When I receive feedback now, I listen fully first. I do not interrupt. Then I
+  ask one clarifying question if I need it. Then I act on it.
+
+  During code reviews, my senior has pointed out things I missed. I always go
+  back, understand why their approach is better, and apply it. That is how I
+  have grown."
+
+HOW TO DELIVER:
+  - Being honest about "early it was harder" is a strength — it shows growth
+  - Say "listen fully first" with intention — it shows emotional maturity
+  - Keep it under 60 seconds
+
+
+================================================================================
+  ROUND 4 — YOUR STRENGTHS & ACHIEVEMENTS
+================================================================================
+
+--------------------------------------------------------------------------------
+Q11. "Tell me about your greatest achievement."
+--------------------------------------------------------------------------------
+TESTING: What you are proud of | Impact | Technical depth
+
+STRUCTURE: What it was → The challenge → What you did → The result
+
+MODEL ANSWER:
+  "My greatest achievement so far is building CareerOS — a full-stack interview
+  preparation platform.
+
+  The challenge was doing it completely on my own — the backend API in Laravel
+  with Sanctum authentication, the frontend in React, the database design,
+  deployment — all of it.
+
+  I had to make every architectural decision myself. What data to store, how
+  to structure the API, how to handle authentication properly as a SPA.
+
+  The result is a working platform that I use personally for interview prep and
+  that shows me what I am actually capable of when I take full ownership.
+
+  It taught me more about engineering than any single task at work because I had
+  to think like both the developer and the architect."
+
+HOW TO DELIVER:
+  - Say "completely on my own" with quiet confidence — not arrogance
+  - The last sentence is the best line — say it slowly
+  - If the interviewer is technical, be ready to go deeper on the architecture
+
+AVOID:
+  - Do not say "I don't have a big achievement" — everyone has something
+  - Do not give a vague answer — be specific
+
+
+--------------------------------------------------------------------------------
+Q12. "Tell me about a time you learned something new quickly."
+--------------------------------------------------------------------------------
+TESTING: Adaptability | Learning speed | Initiative
+
+STRUCTURE: What you had to learn → Why it was urgent → How you approached it → Result
+
+MODEL ANSWER:
+  "When I joined Biz Secure Lab, I had to quickly get comfortable with ClickHouse
+  — a columnar database I had not worked with before.
+
+  The team needed it for handling large volumes of event data and I was given
+  a feature that depended on it.
+
+  I spent the first two days reading the ClickHouse documentation, running small
+  queries, and understanding how it differs from MySQL in terms of storage and
+  query patterns.
+
+  Within a week I was writing the production queries for the feature and they
+  were reviewed and approved by my senior without major changes.
+
+  I learned that the fastest way to learn a new tool is to work directly with
+  it — documentation plus hands-on practice together."
+
+HOW TO DELIVER:
+  - Replace ClickHouse with whatever real new technology you learned quickly
+  - "Without major changes" in the result = confidence booster line
+  - The lesson at the end shows you reflect on how you learn
+
+
+--------------------------------------------------------------------------------
+Q13. "Are you a team player or do you prefer working independently?"
+--------------------------------------------------------------------------------
+TESTING: Collaboration balance | Self-awareness
+
+MODEL ANSWER:
+  "Both — and I think the best developers are comfortable with both.
+
+  I can work independently and I enjoy it. I like deep focus time where I can
+  think through a problem and build it properly without interruption.
+
+  But I also understand that good software is built by teams. Code reviews,
+  standups, design discussions — those make the final product better than what
+  any one person would build alone.
+
+  In my experience, the right balance is: work independently on execution,
+  collaborate on decisions."
+
+HOW TO DELIVER:
+  - Start with "Both" confidently — do not pick one and defend it
+  - The last line is quotable — say it with a slight pause before it
+
+
+--------------------------------------------------------------------------------
+Q14. "How do you manage multiple tasks or priorities at the same time?"
+--------------------------------------------------------------------------------
+TESTING: Time management | Communication | Organization
+
+MODEL ANSWER:
+  "I first identify what is blocking other people or other tasks — those go first.
+
+  Then I break each task into smaller steps so I can track progress clearly and
+  not feel overwhelmed by the whole thing at once.
+
+  If I realize a deadline is at risk, I communicate it early. I do not wait until
+  the last day to say something is taking longer than expected.
+
+  I have used simple tools — even a plain text file or a task list — to track
+  what is done, what is in progress, and what is next. It keeps me focused."
+
+HOW TO DELIVER:
+  - "What is blocking other people" first = shows team thinking, not just self
+  - The communication point is very important — say it clearly
+
+
+================================================================================
+  ROUND 5 — CLOSING
+================================================================================
+
+--------------------------------------------------------------------------------
+Q15. "Do you have any questions for us?"
+--------------------------------------------------------------------------------
+TESTING: Preparation | Genuine interest | Thoughtfulness
+
+RULE: ALWAYS have 2-3 questions ready. Saying "no questions" = disinterest.
+
+GOOD QUESTIONS TO ASK:
+  1. "What does the first 30 to 60 days look like for someone joining this team?"
+     (shows you are thinking about hitting the ground running)
+
+  2. "What are the biggest technical challenges the team is working on right now?"
+     (shows genuine engineering curiosity)
+
+  3. "How does the team handle code reviews and knowledge sharing?"
+     (shows you care about team culture and learning)
+
+  4. "What does growth look like for a developer in this role?"
+     (shows long-term thinking)
+
+HOW TO DELIVER:
+  - Pick 2 questions — not 5
+  - Ask them one at a time, listen to the answer, then ask the next
+  - Say "That is a great point" or "That makes sense" after their answer — engage
+
+AVOID:
+  - Do not ask about salary in this round unless they bring it up
+  - Do not ask things you could have found on their website
+
+
+================================================================================
+  QUICK REFERENCE — ANSWER STRUCTURES
+================================================================================
+
+  Q: Tell me about yourself
+  A: Current role → Skills → Project → Strength → Why here → Close
+
+  Q: Why are you leaving
+  A: Gratitude → Growth (lead) → Practical (brief) → Forward look
+
+  Q: Conflict / disagreement
+  A: STAR — Situation → Task → Action → Result
+
+  Q: Weakness
+  A: State it → Work impact → What you are doing about it
+
+  Q: Embarrassing moment
+  A: STAR + Lesson at the end
+
+  Q: Where do you see yourself in 5 years
+  A: 2-year goal → 5-year goal → This company fits because
+
+  Q: Greatest achievement
+  A: What → Challenge → What you did → Result → What it taught you
+
+  Q: Handle pressure
+  A: Your approach → Example → What you learned
+
+  Q: Handle feedback
+  A: Mindset → How you receive it → Real example
+
+  Q: Team or independent
+  A: Both → Why each matters → Your balance rule
+
+  Q: Multiple priorities
+  A: What comes first (why) → How you track → How you communicate
+
+
+================================================================================
+  BODY LANGUAGE CHECKLIST (for in-person or video)
+================================================================================
+
+  [ ] Sit straight — not rigid, just grounded
+  [ ] Look at the camera (video) or the interviewer's eyes (not forehead)
+  [ ] Nod slightly when they are speaking — shows you are listening
+  [ ] Do not cross arms — keep hands on the table or relaxed
+  [ ] Smile naturally when you greet and when you close — not during the whole interview
+  [ ] If you go blank — take a breath, say "Let me think about that for a moment"
+      That is not weakness. That is composure.
+
+================================================================================

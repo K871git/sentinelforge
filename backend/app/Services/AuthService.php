@@ -3,10 +3,11 @@
 namespace App\Services;
 
 use App\Models\User;
+use AuthServiceInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
-class AuthService
+class AuthService implements AuthServiceInterface
 {
     public function register(array $data): User
     {

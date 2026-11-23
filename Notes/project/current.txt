@@ -1,0 +1,242 @@
+================================================================================
+  INTERVIEW PREPARATION TRACKER — SentinelForge Practice Session
+  Format: [ ] = pending | [x] = done | [~] = needs revision
+================================================================================
+
+
+================================================================================
+  SECTION 1 — HR ROUND
+  Full questions + model answers + delivery guide → see hr_round.txt
+================================================================================
+
+[x] 1.  Tell me about yourself
+[x] 2.  What is your current role and what do you do day to day?
+[x] 3.  Why are you leaving your current company?
+[x] 4.  Where do you see yourself in 5 years?
+[x] 5.  Why do you want to work at our company?
+[x] 6.  Tell me about a conflict or disagreement at work       (STAR)
+[x] 7.  What is your biggest weakness?
+[x] 8.  Tell me about an embarrassing or difficult moment      (STAR + Lesson)
+[x] 9.  How do you handle pressure and tight deadlines?
+[x] 10. How do you handle feedback or criticism?
+[x] 11. Tell me about your greatest achievement
+[x] 12. Tell me about a time you learned something new quickly (STAR)
+[x] 13. Are you a team player or do you prefer working alone?
+[x] 14. How do you manage multiple tasks or priorities?
+[x] 15. Do you have any questions for us?                      (always ask 2)
+
+RULE: Every "tell me about a time" answer = STAR format
+RULE: Pause 3 seconds before every answer. Short sentences. Silence = confidence.
+
+
+================================================================================
+  SECTION 2 — LARAVEL TECHNICAL ROUND
+================================================================================
+
+--- FOUNDATION ---
+
+[x] 1.  What is Laravel? Why use it?
+        KEY: PHP framework, MVC, abstractions over routing/ORM/auth/queues/cache
+        NOT: "makes life easy" — that's marketing, not engineering
+
+[x] 2.  Laravel Request Lifecycle — walk me through it
+        KEY: index.php → HTTP Kernel → Global Middleware → Service Providers
+             → Router → Route Middleware → FormRequest → Controller
+             → Service/Model → Resource → Response → back through middleware
+        CONNECT TO YOUR CODE: POST /api/login flow in SentinelForge
+
+[x] 3.  What is the Service Container? What is IoC?
+        KEY: IoC container — binds interfaces to implementations, resolves via Reflection
+        KEY: Auto-resolution (no manual binding needed for concrete classes)
+        KILLER LINE: "Real value = testability — swap real service for mock in tests"
+
+[x] 4.  bind() vs singleton() — difference and when to use each
+        KEY: bind() = new instance every resolve (stateful, per-use objects)
+             singleton() = one instance reused (stateless services, expensive to create)
+        RULE: "Carries per-use state → bind() | Stateless and shared → singleton()"
+
+[ ] 5.  What is a Service Provider? register() vs boot() — difference?
+        KEY: register() = bind things into container (no other bindings available yet)
+             boot() = use bindings (register routes, event listeners, gates, macros)
+             RULE: ALL register() calls run first, THEN all boot() calls
+        WHERE: AppServiceProvider, RouteServiceProvider, EventServiceProvider
+
+[ ] 6.  What are Facades? How do they work internally?
+        KEY: Static-looking interface to container-resolved class
+        INTERNALS: __callStatic → getFacadeAccessor() → resolves from container
+        WHY: Convenient but hides DI — in tests, use real injection or Facade::fake()
+
+--- ROUTING & MIDDLEWARE ---
+
+[ ] 7.  How does routing work in Laravel?
+        KEY: routes/api.php, routes/web.php | Route::get/post/put/delete/resource
+             Route model binding | Named routes | Route groups | Prefix/middleware
+
+[ ] 8.  What is middleware? How does the middleware pipeline work?
+        KEY: Layers that wrap the request/response cycle
+        INTERNALS: array_reduce() — middleware stack built into a chain of closures
+        TYPES: Global (Kernel.php) | Route-specific | Terminable middleware
+        YOUR CODE: auth:sanctum, throttle:login in SentinelForge routes
+
+[ ] 9.  What is a FormRequest? Why use it over validating in controller?
+        KEY: Encapsulates authorization + validation | Single Responsibility Principle
+        LIFECYCLE: authorize() runs first → rules() → validated data passed to controller
+        YOUR CODE: RegisterRequest, LoginRequest in SentinelForge
+
+--- ELOQUENT ORM ---
+
+[ ] 10. What is Eloquent ORM? How does it differ from Query Builder?
+        KEY: Eloquent = Active Record pattern, each model = one table, full ORM
+             Query Builder = fluent SQL builder, no model hydration, faster for bulk
+        WHEN: Eloquent for business logic | Query Builder for performance-critical bulk ops
+
+[ ] 11. What is the N+1 problem? How do you fix it?
+        KEY: 1 query to get records + N queries for each relationship = N+1 total
+        FIX: Eager loading — with() runs 2 queries total regardless of record count
+        CODE: User::with('posts')->get() vs User::all() then $user->posts foreach
+
+[ ] 12. Eloquent Relationships — all types
+        KEY: hasOne, hasMany, belongsTo, belongsToMany (pivot), hasOneThrough,
+             hasManyThrough, morphTo/morphMany (polymorphic)
+        YOUR DB: audit_logs uses polymorphic (auditable_type / auditable_id)
+
+[ ] 13. What are Eloquent Collections? Name 5 useful methods.
+        KEY: map(), filter(), pluck(), groupBy(), chunk(), first(), each(),
+             contains(), reject(), sortBy()
+        DIFF: Eloquent Collection vs PHP array — lazy vs eager, chainable
+
+[ ] 14. What is mass assignment? How does Laravel protect against it?
+        KEY: $fillable whitelist | $guarded blacklist | Never use $guarded = []
+        YOUR CODE: User model uses #[Fillable] PHP 8.4 attribute
+
+[ ] 15. Explain Eloquent scopes — local vs global
+        KEY: Local = scopeActive() called as ->active() | Global = auto-applied always
+        USE CASE: SoftDeletes is a global scope (adds WHERE deleted_at IS NULL always)
+
+--- AUTHENTICATION & SECURITY ---
+
+[ ] 16. Sanctum vs Passport vs JWT — when to use each?
+        KEY: Sanctum = SPA session-based OR simple token | Your choice for SPA = session
+             Passport = full OAuth2 server (third-party apps, complex flows)
+             JWT = stateless, good for mobile/microservices
+        YOUR CODE: Session-based Sanctum, SANCTUM_STATEFUL_DOMAINS configured
+
+[ ] 17. What is CSRF? How does Laravel handle it?
+        KEY: Cross-Site Request Forgery — forged POST from another site
+        FIX: CSRF token in every form/request, VerifyCsrfToken middleware checks it
+        API: stateless APIs exempt CSRF (api routes), but SPA session auth needs it
+
+[ ] 18. What is SQL injection? How does Laravel prevent it?
+        KEY: Attacker injects SQL via input | Laravel uses PDO prepared statements
+        SAFE: DB::table()->where('email', $email) — parameterized
+        UNSAFE: DB::statement("SELECT * WHERE email = '$email'") — never do this
+
+[ ] 19. What is XSS? How do you prevent it in Laravel?
+        KEY: Injecting malicious script via user input rendered in page
+        FIX: Blade {{ }} auto-escapes | {!! !!} = raw, only use for trusted content
+
+[ ] 20. Gates vs Policies — difference and when to use each?
+        KEY: Gate = simple closure, action-based | Policy = class per model, full CRUD
+        USE: Gate for simple checks | Policy when you have a model with multiple actions
+        YOUR TODO: Not yet implemented in SentinelForge
+
+--- TESTING ---
+
+[ ] 21. Feature test vs Unit test — difference?
+        KEY: Unit = isolated, one class, no DB, no framework | fast
+             Feature = full HTTP request through the app, hits DB | realistic
+        YOUR CODE: LoginTest, RegisterTest are Feature tests
+
+[ ] 22. What is test database seeding and factories?
+        KEY: Factory = fake data blueprint per model | Seeder = populates test DB
+        YOUR CODE: UserFactory in SentinelForge — name/email/password/is_active
+
+[ ] 23. How do you test authenticated endpoints?
+        KEY: Sanctum::actingAs($user) = token-based | $this->actingAs($user) = session
+        YOUR BUG: logout test uses Sanctum::actingAs but logout() uses session guard
+        FIX NEEDED: Rewrite logout test to use $this->actingAs() with web guard
+
+--- PERFORMANCE & ARCHITECTURE ---
+
+[ ] 24. What are queues in Laravel? Why use them?
+        KEY: Defer slow work (email, PDF, API calls) to background worker
+        HOW: Job class implements ShouldQueue, dispatched via dispatch(), worker runs it
+        BENEFIT: Response returns immediately, job runs async
+
+[ ] 25. What is caching in Laravel? Name the drivers.
+        KEY: Cache::put/get/remember | Drivers: file, redis, memcached, database, array
+        remember() = get from cache or run callback and store result
+        CACHE STAMPEDE: many requests miss cache simultaneously, all hit DB
+
+[ ] 26. What is the Repository Pattern? Should you use it in Laravel?
+        KEY: Abstraction layer between controller and Eloquent
+        PRO: Swappable data source, testable | CON: Overkill for most Laravel apps
+        OPINION: Use Service layer (you have this) — Repository only if swapping DB
+
+[ ] 27. Zero-downtime migrations — how?
+        KEY: Never drop columns in same deploy as code that removes them
+             Add column → deploy code → remove old code → then drop column
+             Never rename columns directly — add new, migrate data, drop old
+
+--- LARAVEL 13 SPECIFICS ---
+
+[ ] 28. What's new in Laravel 13?
+        KEY: PHP 8.3 minimum, stable AI SDK, PHP attribute-based config,
+             queue routing by job class, Symfony 7.4/8 support
+
+[ ] 29. PHP 8.x features you use in this project
+        KEY: Constructor promotion, named args, match expression, nullsafe ?->
+             Attributes (#[Fillable], #[Hidden] in your User model)
+             Readonly properties, Enums (8.1), Fibers (8.1)
+
+
+================================================================================
+  SECTION 3 — REACT (UPCOMING)
+================================================================================
+
+[ ] 1.  Components — functional vs class (why functional won)
+[ ] 2.  Props vs State — difference, flow
+[ ] 3.  useState, useEffect — common mistakes and rules of hooks
+[ ] 4.  useCallback, useMemo — when to actually use them (not always)
+[ ] 5.  useContext — when to use vs prop drilling vs Redux
+[ ] 6.  React Router — dynamic routes, nested routes, protected routes
+[ ] 7.  API calls — fetch vs axios, error handling, loading states
+[ ] 8.  Component re-render — what causes it, how to prevent unnecessary renders
+[ ] 9.  Keys in lists — why required, what happens without them
+[ ] 10. Virtual DOM — what it is, reconciliation, diffing algorithm
+[ ] 11. Controlled vs uncontrolled inputs
+[ ] 12. Code splitting, lazy loading components
+[ ] 13. React with Laravel Sanctum SPA auth — CSRF cookie flow
+
+
+================================================================================
+  SECTION 4 — SQL / MySQL (UPCOMING)
+================================================================================
+
+[ ] 1.  JOINs — INNER, LEFT, RIGHT, FULL OUTER — differences with examples
+[ ] 2.  Indexes — what they are, B-tree, when to add, when not to
+[ ] 3.  Primary key vs Unique key vs Foreign key
+[ ] 4.  GROUP BY + HAVING vs WHERE — difference
+[ ] 5.  Subqueries vs JOINs — performance trade-offs
+[ ] 6.  Transactions — ACID properties, BEGIN/COMMIT/ROLLBACK
+[ ] 7.  N+1 at SQL level — how to spot it in EXPLAIN output
+[ ] 8.  Normalization — 1NF, 2NF, 3NF — when to denormalize
+[ ] 9.  ClickHouse — columnar storage, when to use over MySQL
+[ ] 10. PostgreSQL vs MySQL — key differences you've experienced
+
+
+================================================================================
+  NOTES
+================================================================================
+
+  Project: SentinelForge (Laravel 13 + PHP 8.3 + MySQL 8.4 + React + Vite)
+  Branch:  task/backend
+  Auth:    Session-based Sanctum SPA (not token)
+  Pattern: Request → FormRequest → Controller → Service → Model → Resource → JSON
+
+  KNOWN BUG TO FIX:
+  - LoginTest.php: test_authenticated_user_can_log_out uses Sanctum::actingAs()
+    but logout() uses Auth::guard('web')->logout() — mismatch, test passes wrong
+    Fix: use $this->actingAs($user) with web guard or withSession()
+
+================================================================================

@@ -9,3 +9,107 @@ setcookie('iisuser',$user->id,time()+(10*356*24*60*60),path,"",secure,httponly);
 
 * what is repository pattern in laravel
 
+
+
+==================
+
+Step 1 — What's happening RIGHT NOW in your project
+Your AuthController constructor:
+
+
+public function __construct(
+    private AuthService $authService
+) {}
+You never wrote new AuthService() anywhere. But it works. Why?
+
+Laravel reads the type-hint AuthService, checks it's a concrete class, and instantiates it automatically using PHP Reflection.
+
+This is called auto-resolution. No binding needed. Laravel handles it.
+
+Your AppServiceProvider::register() is empty — that's why. Nothing needs manual binding right now.
+
+Step 2 — When auto-resolution breaks
+Auto-resolution only works for concrete classes.
+
+The moment you type-hint an interface — Laravel has no idea which class to inject. It needs you to tell it.
+
+
+// You create this interface
+interface AuthServiceInterface {
+    public function login(array $credentials): bool;
+    public function register(array $data): User;
+}
+
+// AuthService implements it
+class AuthService implements AuthServiceInterface { ... }
+
+// Controller now type-hints the interface
+public function __construct(
+    private AuthServiceInterface $authService  // Laravel: "which class IS this?"
+) {}
+Now Laravel crashes — interface is not instantiable.
+
+This is where register() comes in.
+
+Step 3 — bind() fixes it
+
+// AppServiceProvider
+public function register(): void
+{
+    $this->app->bind(AuthServiceInterface::class, AuthService::class);
+}
+Now Laravel knows: "whenever someone asks for AuthServiceInterface, give them AuthService."
+
+But bind() creates a new instance every single time it's resolved.
+
+So if AuthService is resolved 3 times in one request — 3 separate objects created.
+
+Step 4 — singleton() is smarter here
+
+public function register(): void
+{
+    $this->app->singleton(AuthServiceInterface::class, AuthService::class);
+}
+Now Laravel creates AuthService once and reuses the same object everywhere in that request.
+
+Why singleton for AuthService?
+
+Look at your AuthService — it holds zero state. No properties, no per-user data. It just has methods. There's no reason to create a new object every time. One instance does the job for the entire request.
+
+Step 5 — When to use which
+bind()	singleton()
+Creates	New instance every resolve	One instance, reused
+Use when	Object holds per-use state	Object is stateless
+Example	Report builder, cart	AuthService, MailService, PaymentService
+Step 6 — Your AppServiceProvider boot() — why it's there
+
+public function boot(): void
+{
+    Schema::defaultStringLength(191);
+
+    RateLimiter::for('login', function (Request $request) {
+        return Limit::perMinute(5)->by($request->input('email').'|'.$request->ip());
+    });
+}
+These lines use Laravel's Schema and RateLimiter facades — which are services that come from other providers.
+
+If this ran in register() — those services might not exist yet. So it goes in boot(). Safe.
+
+Full picture — one diagram
+
+Request comes in
+      ↓
+AppServiceProvider::register()   → binds AuthServiceInterface → AuthService
+      ↓
+AppServiceProvider::boot()       → sets Schema length, RateLimiters
+      ↓
+Router hits POST /api/login
+      ↓
+AuthController needs AuthServiceInterface
+      ↓
+Container resolves → returns AuthService (singleton, same instance)
+      ↓
+login() runs
+Interview answer:
+
+"Laravel auto-resolves concrete classes using Reflection. When I use an interface, I bind it in register() using bind() or singleton(). Singleton for stateless services — one instance per request. bind() when the object carries state and needs to be fresh each time."
