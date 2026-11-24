@@ -23,3 +23,5 @@ GRANT ALL PRIVILEGES on sentinelforge.* to 'santinel' @'localhost';
 
 SELECT user from mysql.user;
 
+-- ====================================
+
