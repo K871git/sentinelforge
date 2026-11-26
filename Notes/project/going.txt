@@ -1,0 +1,296 @@
+================================================================================
+  SENTINELFORGE — 3 PHASE DEVELOPMENT PLAN
+  Source: yet1.txt backend map + project goals
+  Today: Thursday 26 Nov 2026
+  Rule: Backend must be 100% complete before frontend starts
+  Completion Gate: DB → API → Auth → Authorization → Security → Tests → Postman
+================================================================================
+
+ALREADY DONE:
+  [x] Laravel 13 + Sanctum setup
+  [x] MySQL 8.4 connection + all 15 migrations
+  [x] GET /api/health (ChecReskController)
+  [x] Auth API — register, login, logout, user
+  [x] RegisterRequest + LoginRequest (validation)
+  [x] AuthService — register + login logic
+  [x] UserResource
+  [x] Rate limiting — login (5/min), register (10/min), auth-actions (5/min)
+  [x] AppServiceProvider — Schema length + rate limiters
+  [x] UserFactory
+  [x] LoginTest (8 tests) + RegisterTest (1 test)
+  [x] AuthServiceInterface contract
+  [x] SendWelcomeEmail job (created)
+
+KNOWN BUG (fix Day 1 first):
+  [ ] logout test uses Sanctum::actingAs() but logout() uses session guard
+      Fix: $this->actingAs($user) — not Sanctum::actingAs()
+
+
+================================================================================
+  PHASE 1 — BACKEND COMPLETE (Thu 26 → Sat 28 Nov)
+  Goal: Every API built + Authorization + Security + Tests + Postman done
+  No frontend until this gate passes
+================================================================================
+
+Flow for every API:
+  Route → FormRequest (validation) → Controller → Service → Model → Resource → JSON
+
+--- DAY 1 — THURSDAY 26 NOV — Core APIs Part 1 ---
+
+  [ ] Fix logout test mismatch (bug above)
+
+  [ ] SecurityEvents API
+        php artisan make:controller Api/V1/SecurityEventController
+        php artisan make:request SecurityEventRequest
+        php artisan make:resource SecurityEventResource
+        php artisan make:model SecurityEvent
+        php artisan make:seeder SecurityEventSeeder
+        Endpoints:
+          GET    /api/security-events         (index — paginated)
+          POST   /api/security-events         (store)
+          GET    /api/security-events/{id}    (show)
+        Fields: event_type, severity, source_ip, action, metadata(JSON), status
+
+  [ ] Incidents API
+        php artisan make:controller Api/V1/IncidentController
+        php artisan make:request IncidentRequest
+        php artisan make:resource IncidentResource
+        php artisan make:model Incident
+        php artisan make:seeder IncidentSeeder
+        Endpoints:
+          GET    /api/incidents               (index)
+          POST   /api/incidents               (store)
+          GET    /api/incidents/{id}          (show)
+          PUT    /api/incidents/{id}          (update status/assignment)
+        Fields: incident_number, title, status, severity, assigned_to
+
+  [ ] Investigations API (belongs to incident)
+        php artisan make:controller Api/V1/InvestigationController
+        php artisan make:request InvestigationRequest
+        php artisan make:resource InvestigationResource
+        php artisan make:model IncidentInvestigation
+        Endpoints:
+          GET    /api/incidents/{id}/investigations   (index)
+          POST   /api/incidents/{id}/investigations   (store)
+          GET    /api/investigations/{id}             (show)
+        Fields: incident_id, notes, findings, investigator_id
+
+  [ ] UserSeeder — 3 test users (admin, analyst, viewer roles)
+
+--- DAY 2 — FRIDAY 27 NOV — Core APIs Part 2 ---
+
+  [ ] Vulnerabilities API
+        Endpoints: GET index, POST store, GET show, PUT update
+        Fields: cve_id, title, description, cvss_score, severity, remediation, status
+
+  [ ] Checklists API
+        Endpoints: GET index, POST store, GET show
+        Fields: checklist_key, title, category, guidance, is_active
+
+  [ ] Labs API
+        Endpoints: GET index, POST store, GET show
+        Fields: lab_key, title, difficulty, description, configuration(JSON), status
+
+  [ ] AutomationRuns API
+        Endpoints: GET index, POST store, GET show
+        Fields: operation, status, triggered_by, input_data(JSON), result_data(JSON)
+
+  [ ] Seeders for all above
+
+  [ ] Authorization — Roles + Permissions
+        php artisan make:seeder RoleSeeder
+        php artisan make:seeder PermissionSeeder
+        Roles: admin, analyst, viewer
+        Permissions: manage-events, manage-incidents, view-reports, run-automation
+        RoleSeeder + PermissionSeeder populate role_user + permission_role pivot tables
+
+  [ ] Gates + Policies
+        php artisan make:policy SecurityEventPolicy --model=SecurityEvent
+        php artisan make:policy IncidentPolicy --model=Incident
+        In AppServiceProvider boot():
+          Gate::define('manage-incidents', fn(User $u) => $u->hasRole('admin','analyst'))
+          Gate::define('view-reports',     fn(User $u) => $u->hasRole('admin'))
+        Controller: $this->authorize('manage-incidents') before store/update/delete
+        Ownership/IDOR: policy checks $user->id === $model->created_by
+
+--- DAY 3 — SATURDAY 28 NOV — Final APIs + Security + Tests + Postman ---
+
+  [ ] AiAnalyses API
+        Endpoints: GET index, POST store, GET show
+        Fields: analysis_type, model_name, prompt, status, input_data(JSON), result_data(JSON)
+        Note: no Python yet — just the API contract + stub
+
+  [ ] Reports API
+        Endpoints: GET index, POST store, GET show
+        Fields: report_type, title, filters(JSON), data(JSON), file_path, generated_by
+
+  [ ] Audit Logging
+        php artisan make:model AuditLog
+        php artisan make:observer SecurityEventObserver
+        Observer: created/updated/deleted → store old_values + new_values as JSON
+        Polymorphic: auditable_type + auditable_id
+        Register observer in AppServiceProvider boot()
+
+  [ ] Security Foundation
+        [ ] Request validation on all endpoints (already in FormRequests)
+        [ ] Secure error handling — no stack traces in production responses
+        [ ] Strong password enforced in RegisterRequest (min:8 + complexity rule)
+        [ ] Session protection — session regenerate on login (done), invalidate on logout (done)
+        [ ] Account lockout stub — after 5 failed logins (via rate limiter, done)
+        [ ] No sensitive data in API responses (password hidden in User model, done)
+
+  [ ] External Service Contracts (stubs only — no implementation)
+        [ ] AiServiceInterface — defines contract Laravel expects from Python AI
+        [ ] AutomationServiceInterface — defines contract for PowerShell layer
+        Backend validates + controls both. No Python/PowerShell code here.
+
+  [ ] Feature Tests
+        [ ] SecurityEventTest — index (200), store (201), show (200), unauth (401)
+        [ ] IncidentTest — index, store, show, update, ownership check
+        [ ] InvestigationTest — nested under incident
+        [ ] VulnerabilityTest
+        [ ] LabTest
+        [ ] AutomationRunTest
+        [ ] AuditLog — assert log created on model create/update/delete
+        [ ] Authorization tests — analyst cannot delete, viewer cannot create
+        [ ] RegisterTest — expand:
+              duplicate email → 422
+              missing password → 422
+              password not confirmed → 422
+              password too short → 422
+
+  [ ] Postman Collection
+        [ ] Auth folder: register, login, user, logout
+        [ ] Security Events folder: all endpoints
+        [ ] Incidents + Investigations folder
+        [ ] Vulnerabilities + Checklists + Labs folder
+        [ ] AutomationRuns + AiAnalyses + Reports folder
+        [ ] Verify success + failure scenarios for each
+
+  BACKEND COMPLETION GATE CHECK:
+  [ ] DB migrations all clean (migrate:fresh --seed works)
+  [ ] All APIs return consistent response format
+  [ ] Auth + Authorization working
+  [ ] Rate limiting tested
+  [ ] Audit logs created on events
+  [ ] php artisan test — all green
+  [ ] Postman — all endpoints verified
+  ↓ ONLY THEN start Phase 2
+
+
+================================================================================
+  PHASE 2 — FRONTEND (Sun 29 Nov → Tue 01 Dec)
+  Goal: React consumes stable backend APIs. No backend changes here.
+  API contracts are locked. Frontend adapts to them.
+================================================================================
+
+--- DAY 4 — SUNDAY 29 NOV — React Foundation + Auth ---
+
+  [ ] React + Vite setup in /frontend
+        npm create vite@latest . -- --template react
+        npm install axios react-router-dom
+
+  [ ] Axios config
+        baseURL: http://localhost:8000
+        withCredentials: true   ← critical for Sanctum session cookie
+
+  [ ] Auth flow
+        GET /sanctum/csrf-cookie first (before login)
+        POST /api/login → store user in AuthContext
+        POST /api/register
+        POST /api/logout → clear context → redirect to /login
+        GET /api/user → rehydrate auth on page refresh
+
+  [ ] Pages: /login + /register
+  [ ] Protected route — redirect to /login if no authenticated user
+  [ ] AuthContext — user state available globally
+
+--- DAY 5 — MONDAY 30 NOV — Core Pages ---
+
+  [ ] Dashboard — stats cards (event count, open incidents, vulnerabilities)
+  [ ] Security Events page — list + create form
+  [ ] Incidents page — list + create + status update
+  [ ] Investigations — nested inside incident detail page
+  [ ] Role-aware UI:
+        Admin sees: all actions (create, edit, delete)
+        Analyst sees: create + edit, no delete
+        Viewer sees: read only
+        Hide buttons based on user role from /api/user response
+
+--- DAY 6 — TUESDAY 01 DEC — Remaining Pages + UX ---
+
+  [ ] Vulnerabilities page — list + create
+  [ ] Checklists page — list + create
+  [ ] Labs page — list + detail
+  [ ] AutomationRuns page — list + trigger
+  [ ] AiAnalyses page — list + request (stub — no AI yet)
+  [ ] Reports page — list + generate
+  [ ] Loading states on all API calls (spinner)
+  [ ] Error handling — show validation errors from API
+  [ ] 401 response → auto redirect to /login (axios interceptor)
+  [ ] Empty states — "No data yet" messages
+
+
+================================================================================
+  PHASE 3 — TESTING + POLISH (Wed 02 → Fri 04 Dec)
+  Goal: Everything works end to end. Clean. Documented. Ready.
+================================================================================
+
+--- DAY 7 — WEDNESDAY 02 DEC ---
+
+  [ ] Run full backend test suite — php artisan test — all green
+  [ ] Manual end-to-end: register → login → create event → create incident
+  [ ] Test role enforcement: analyst cannot delete, viewer gets 403
+  [ ] Test rate limiting: 6th login attempt returns 429
+  [ ] Test audit logs created correctly
+
+--- DAY 8 — THURSDAY 03 DEC ---
+
+  [ ] Frontend edge cases:
+        [ ] Form with empty fields shows validation errors
+        [ ] Expired session → redirect to login
+        [ ] Network error → show friendly message
+  [ ] API response format audit — consistent across all endpoints
+  [ ] Remove any dd(), var_dump(), console.log() left in code
+  [ ] Postman — final pass, all 200/201/401/403/422 verified
+
+--- DAY 9 — FRIDAY 04 DEC ---
+
+  [ ] Code review — dead code removed, clean structure
+  [ ] Git — clean commits, meaningful messages
+  [ ] Update README — how to run backend + frontend
+  [ ] Final: php artisan test — all green
+  [ ] Project complete ✓
+
+
+================================================================================
+  API RESPONSE FORMAT — STANDARD
+================================================================================
+
+  List:        { "status": true, "data": [...], "meta": {pagination} }
+  Single:      { "status": true, "data": {...} }
+  Created:     { "status": true, "message": "Created.", "data": {...} }   201
+  Validation:  { "message": "...", "errors": {...} }                      422
+  Unauth:      { "status": false, "message": "Unauthenticated." }         401
+  Forbidden:   { "status": false, "message": "Forbidden." }               403
+  Error:       { "status": false, "message": "Something went wrong." }    500
+
+
+================================================================================
+  QUICK ARTISAN COMMANDS
+================================================================================
+
+  php artisan serve --port=8000
+  php artisan migrate:fresh --seed
+  php artisan test
+  php artisan queue:work
+
+  make:controller Api/V1/SecurityEventController --api
+  make:request SecurityEventRequest
+  make:resource SecurityEventResource
+  make:model SecurityEvent
+  make:policy SecurityEventPolicy --model=SecurityEvent
+  make:seeder SecurityEventSeeder
+  make:observer SecurityEventObserver --model=SecurityEvent
+
+================================================================================

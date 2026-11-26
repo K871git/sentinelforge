@@ -11,3 +11,5 @@ sarva kahi shiklo ahe anubhavatun, kahi vela Mama guide kartat, kahi vela tumhi 
 Aaj mi greatful ahe je kahi tumhi mala dile ahe, majhya life madhye sukh ani dukh donhi ahet, mi tyanna rathachi don chake samajto, donhi imporant ahe, jar dukh nasel tar sukhachi value kalnar nahi, jeva jeva mi sankatat sapadlo ahe, teva teva tumhi mala marg dakhavla ahe, mi always majhyasobat ahe, majha majhyavar vishwas ahe, ani pratyek paul mi vicharpurvak takat ahe, ajun tar khup baki ahe, ani step by step one by one purna karat challo ahe, Aashirvad dya Baba, 
 
 Maf kara deva, kahi vela chuka hot ahet, mi naklat khup excited houn jat ahe, mi swathala sambhalat ahe, ani pudhe jaat ahe, mi punha konalahi sangnar nahi, maaf kara
+
+Jo marga tumhi dakhavtay tyavarti chaltoy ani pudhehi chalat rahil, mala margadarshan kara, he prem ani mulgi ya gostimadhy mala kahi mahit nahi, please mala help kara

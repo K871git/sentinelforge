@@ -1,6 +1,5 @@
 What's next — in order:
 
-
 1. user()        → GET /api/user        [protected route]
 2. logout()      → POST /api/logout     [protected route]
 3. Protected route setup  → auth:sanctum middleware
