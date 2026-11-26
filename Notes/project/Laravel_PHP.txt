@@ -57,7 +57,6 @@ Resource    : tranform data into API JSON
 SOAP : Simple Object Access Protocol 
 example : if application A uses the PHP and application B uses Java then both applications can be exchange information
 
-
 * what is laravel migrations explain with core points: 
 laravel migration file are blueprint to create the table:
 version-controller database change written in PHP 
@@ -86,17 +85,14 @@ COMMAND ::  php artisan migrate:rollback
             php artisan migrate:reset
             php artisan migrate:rollback --step=1 // most recent how many migration want to rollback
             
-
 Migration
    |
    +-- up()   → Apply the database change
    |
    +-- down() → Undo the database change
 
-
 -- while writing the migrations : if i dont specify the string length (which is VARCHAR apperently) then laravel assumes 255 by default 
 string is for VARCHAR and text creates TEXT datatype column where it used for longer content where iI don't specify a length
-
 
 * How sanctum's laravel session-based authentication works in simple ?
 The SPA first requests the CSRF cookie from Laravel:
@@ -164,7 +160,6 @@ email => 'unique' : laravel automatically searches in the DB and return if ther 
 for custom confirm field add : password =>'confirm:custom_confirm' : if want to use another name instead of password_confirmation which is laravel default
 
 making an class : php artisan make:class classname
-
 
 * explain the construct in php ?
 constructor is an method in class, which invoke at the time of object creation, automatically instanciate the variables

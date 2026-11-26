@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Log;
 class AuthController extends Controller
 {
     public function __construct(
-        // private AuthService $authService
-        private AuthServiceInterface $authService
+        private AuthService $authService
+        // private AuthServiceInterface $authService
     ) {}
 
     public function register(RegisterRequest $request)
