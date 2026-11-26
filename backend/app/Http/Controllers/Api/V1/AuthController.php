@@ -7,6 +7,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Services\AuthService;
+use AuthServiceInterface;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,9 +16,9 @@ use Illuminate\Support\Facades\Log;
 class AuthController extends Controller
 {
     public function __construct(
-        private AuthService $authService
+        // private AuthService $authService
+        private AuthServiceInterface $authService
     ) {}
-
 
     public function register(RegisterRequest $request)
     {
@@ -112,6 +113,8 @@ class AuthController extends Controller
         }
     }
 }
+
+
     //register()
     //login()
     //user()
