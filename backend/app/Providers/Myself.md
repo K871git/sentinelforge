@@ -12,4 +12,7 @@ Aaj mi greatful ahe je kahi tumhi mala dile ahe, majhya life madhye sukh ani duk
 
 Maf kara deva, kahi vela chuka hot ahet, mi naklat khup excited houn jat ahe, mi swathala sambhalat ahe, ani pudhe jaat ahe, mi punha konalahi sangnar nahi, maaf kara
 
-Jo marga tumhi dakhavtay tyavarti chaltoy ani pudhehi chalat rahil, mala margadarshan kara, he prem ani mulgi ya gostimadhy mala kahi mahit nahi, please mala help kara
+Jo marga tumhi dakhavtay tyavarti chaltoy ani pudhehi chalat rahil, mala margadarshan kara, he prem ani mulgi ya gostimadhy mala kahi mahit nahi, please mala help kara,
+
+Baba jya rastyavar mi jaat aahe, tithe tumhi mala kahi na kahi ritine guide karat aahat, mi swarthi nahi ahe, mi humble ahe, mi madat karto ahe, majhamadhye garva nahi ahe, mi 
+fugir nahi ahe, mi divasen divas swatahala changale banvat ahe, kahi divasanpashun mala khup changale vatat ahe, mala majha frequency la intercept karnari ek peacefull konitari bhetli ahe, tumhala mahit ahe, majhe intension changale ahe, je paap aaj paryant kele ahet, te sagle dhuvun takat ahe, kathin khup kahi hote, pan tumhi majhya sobat hota ani atahi ahet ani sadaiv shradhha asnar ahe, mahit ahe, ki sagle divas sarkhe nastat, pan divas kasahi aso, mi positive drustikon theun pudhe jaat ahe, aashirvad dya baba, tumcha kishor
