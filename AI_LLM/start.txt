@@ -1,1 +1,203 @@
-AI and LLM goes here 
+================================================================================
+  SENTINELFORGE — AI / LLM INTEGRATION GUIDE
+  Engine: Ollama (local LLM — no cloud, no API key)
+  Model: llama3.2 (default, configurable)
+  Status: Laravel side complete — Ollama must be running locally
+================================================================================
+
+
+================================================================================
+  WHAT WAS BUILT
+================================================================================
+
+  1. OllamaService          — talks to Ollama HTTP API
+  2. AiAnalysis Model       — stores every analysis request + result
+  3. AiAnalysisRequest      — validates incoming request
+  4. AiAnalysisResource     — formats API response
+  5. AiAnalysisService      — business logic (create, index, show)
+  6. RunAiAnalysis Job      — runs analysis in background (queued)
+  7. AiAnalysisController   — handles HTTP requests
+  8. Routes                 — 3 endpoints under auth:sanctum
+
+
+================================================================================
+  HOW IT WORKS — STEP BY STEP
+================================================================================
+
+  STEP 1: Client sends POST /api/ai-analyses
+  -------
+  Payload:
+    {
+      "analysis_type": "threat_analysis",
+      "input": {
+        "prompt": "Analyze this event: suspicious login from IP 192.168.1.1"
+      },
+      "security_event_id": 1,   (optional)
+      "incident_id": null        (optional)
+    }
+
+  STEP 2: AiAnalysisRequest validates the payload
+  -------
+  - analysis_type: required, string, max 100
+  - input: required, array
+  - input.prompt: required, string, min 10 chars
+  - security_event_id: optional, must exist in security_events table
+  - incident_id: optional, must exist in incidents table
+
+  STEP 3: AiAnalysisController calls AiAnalysisService::create()
+  -------
+  - Creates AiAnalysis record in DB with status = "pending"
+  - Dispatches RunAiAnalysis job to queue
+  - Returns 201 immediately — client does NOT wait for AI response
+
+  STEP 4: Queue worker picks up RunAiAnalysis job
+  -------
+  - Updates status to "processing", sets started_at
+  - Calls OllamaService::analyze($prompt)
+  - OllamaService sends POST to http://localhost:11434/api/generate
+  - Waits up to 120 seconds for Ollama response
+
+  STEP 5: Result stored
+  -------
+  Success → status = "completed", result JSON stored, completed_at set
+  Failure → status = "failed", error_message stored, completed_at set
+
+  STEP 6: Client polls GET /api/ai-analyses/{id}
+  -------
+  Keep calling until status is "completed" or "failed"
+  Result is in: data.result.response
+
+
+================================================================================
+  FILE MAP
+================================================================================
+
+  backend/app/Services/OllamaService.php
+    — HTTP client to Ollama
+    — analyze(prompt) → returns AI response string
+    — logs request time and response length
+
+  backend/app/Jobs/RunAiAnalysis.php
+    — ShouldQueue — runs in background
+    — 3 retries, 180 second timeout
+    — handles success + failure, logs both
+
+  backend/app/Models/AiAnalysis.php
+    — fillable: user_id, analysis_type, model_name, status,
+               input(JSON), result(JSON), error_message,
+               security_event_id, incident_id,
+               started_at, completed_at
+    — casts: input → array, result → array
+
+  backend/app/Http/Requests/AiAnalysisRequest.php
+    — validates input.prompt (nested JSON validation)
+
+  backend/app/Http/Resources/AiAnalysisResource.php
+    — exposes: id, type, model, status, input, result,
+               error_message (only on failure), timestamps
+
+  backend/app/Services/AiAnalysisService.php
+    — index($userId)         → paginated list
+    — create($data, $userId) → creates record + dispatches job
+    — show($id, $userId)     → single record (for polling)
+
+  backend/app/Http/Controllers/Api/V1/AiAnalysisController.php
+    — index()  → GET  /api/ai-analyses
+    — store()  → POST /api/ai-analyses
+    — show($id)→ GET  /api/ai-analyses/{id}
+
+  backend/routes/api.php
+    — all 3 routes under auth:sanctum middleware
+
+
+================================================================================
+  DATABASE TABLE — ai_analyses
+================================================================================
+
+  id                  bigint PK
+  user_id             FK → users (nullable on delete)
+  security_event_id   FK → security_events (nullable)
+  incident_id         FK → incidents (nullable)
+  analysis_type       varchar(100)       e.g. threat_analysis, log_summary
+  model_name          varchar(150)       e.g. llama3.2
+  status              varchar(30)        pending | processing | completed | failed
+  input               JSON               { "prompt": "..." }
+  result              JSON               { "response": "..." }
+  error_message       text               only set on failure
+  started_at          timestamp          when job picked it up
+  completed_at        timestamp          when job finished
+  created_at          timestamp
+  updated_at          timestamp
+
+
+================================================================================
+  ENV VARIABLES
+================================================================================
+
+  OLLAMA_BASE_URL=http://localhost:11434
+  OLLAMA_MODEL=llama3.2
+  QUEUE_CONNECTION=database
+
+
+================================================================================
+  HOW TO RUN
+================================================================================
+
+  # 1. Install Ollama from https://ollama.com
+  ollama pull llama3.2
+
+  # 2. Start Ollama
+  ollama serve
+
+  # 3. Create jobs table (if not done)
+  php artisan queue:table
+  php artisan migrate
+
+  # 4. Start queue worker
+  php artisan queue:work
+
+  # 5. Start Laravel
+  php artisan serve
+
+  # 6. Test — POST /api/ai-analyses (must be logged in first)
+
+
+================================================================================
+  LOG TRAIL (check storage/logs/laravel.log)
+================================================================================
+
+  [AiAnalysisService] Analysis created and job dispatched
+  [Job] RunAiAnalysis started
+  [Ollama] Sending request
+  [Ollama] Response received  ← shows elapsed_seconds
+  [Job] RunAiAnalysis completed
+
+  On failure:
+  [Ollama] Request failed
+  [Job] RunAiAnalysis failed
+
+
+================================================================================
+  ANALYSIS TYPES (suggested — no enforcement yet)
+================================================================================
+
+  threat_analysis      Analyze a security event for threat indicators
+  log_summary          Summarize a batch of logs
+  incident_triage      Suggest severity and next steps for an incident
+  vulnerability_scan   Explain a CVE and suggest remediation
+  report_summary       Generate a plain-English summary of a report
+
+
+================================================================================
+  NEXT — PYTHON LAYER (not built yet)
+================================================================================
+
+  This directory will also hold a Python service that:
+  - Receives tasks from Laravel via HTTP or queue
+  - Runs more complex AI pipelines (RAG, embeddings, fine-tuned models)
+  - Sends results back to Laravel AiAnalysis table
+
+  Contract is defined in:
+  backend/app/Contracts/AiServiceInterface.php  (to be created)
+
+================================================================================

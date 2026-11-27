@@ -14,4 +14,6 @@ class ChecReskController extends Controller
             "message" => "API is running..!"
         ], 200);
     }
+    
+    
 }
